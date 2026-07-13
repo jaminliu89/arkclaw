@@ -1,0 +1,273 @@
+{
+  "version": 1,
+  "contexts": {},
+  "cachedSkills": {
+    "skills": [
+      {
+        "id": "feishu-lark-cli",
+        "name": "飞书操作铁律（最高优先级）",
+        "source": "workspace",
+        "path": "/root/.agents/skills/feishu-lark-cli/SKILL.md"
+      },
+      {
+        "id": "workspace-netdrive",
+        "name": "工作区网盘技能 (Workspace Netdrive Skill)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/workspace-netdrive/SKILL.md"
+      },
+      {
+        "id": "lark-workflow-meeting-summary",
+        "name": "会议纪要汇总工作流",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-workflow-meeting-summary/SKILL.md"
+      },
+      {
+        "id": "lark-workflow-standup-report",
+        "name": "日程待办摘要工作流",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-workflow-standup-report/SKILL.md"
+      },
+      {
+        "id": "lark-apps",
+        "name": "apps (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-apps/SKILL.md"
+      },
+      {
+        "id": "openclaw-cron-enhance",
+        "name": "ArkClaw Cron Policy Overlay",
+        "source": "workspace",
+        "path": "/root/.agents/skills/openclaw-cron-enhance/SKILL.md"
+      },
+      {
+        "id": "arkclaw-team-project-builder",
+        "name": "arkclaw-team-project-builder Skill",
+        "source": "workspace",
+        "path": "/root/.agents/skills/arkclaw-team-project-builder/SKILL.md"
+      },
+      {
+        "id": "lark-attendance",
+        "name": "attendance (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-attendance/SKILL.md"
+      },
+      {
+        "id": "lark-base",
+        "name": "base",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-base/SKILL.md"
+      },
+      {
+        "id": "browser-use",
+        "name": "Browser Skill Guide",
+        "source": "workspace",
+        "path": "/root/.agents/skills/browser-use/SKILL.md"
+      },
+      {
+        "id": "byted-web-search",
+        "name": "Byted Web Search",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/.agents/skills/byted-web-search/SKILL.md"
+      },
+      {
+        "id": "lark-calendar",
+        "name": "calendar (v4)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-calendar/SKILL.md"
+      },
+      {
+        "id": "computer-use",
+        "name": "Computer Use (CUA) Guide",
+        "source": "workspace",
+        "path": "/root/.agents/skills/computer-use/SKILL.md"
+      },
+      {
+        "id": "lark-contact",
+        "name": "contact (v2)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-contact/SKILL.md"
+      },
+      {
+        "id": "lark-doc",
+        "name": "docs (v2)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-doc/SKILL.md"
+      },
+      {
+        "id": "lark-drive",
+        "name": "drive (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-drive/SKILL.md"
+      },
+      {
+        "id": "lark-im",
+        "name": "im (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-im/SKILL.md"
+      },
+      {
+        "id": "lark-event",
+        "name": "Lark Events",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-event/SKILL.md"
+      },
+      {
+        "id": "lark-approval",
+        "name": "lark-approval",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-approval/SKILL.md"
+      },
+      {
+        "id": "lark-shared",
+        "name": "lark-cli 共享规则",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-shared/SKILL.md"
+      },
+      {
+        "id": "lark-whiteboard",
+        "name": "lark-whiteboard",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-whiteboard/SKILL.md"
+      },
+      {
+        "id": "lark-mail",
+        "name": "mail (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-mail/SKILL.md"
+      },
+      {
+        "id": "lark-markdown",
+        "name": "markdown (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-markdown/SKILL.md"
+      },
+      {
+        "id": "lark-minutes",
+        "name": "minutes (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-minutes/SKILL.md"
+      },
+      {
+        "id": "lark-note",
+        "name": "note (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-note/SKILL.md"
+      },
+      {
+        "id": "ocr-document-processor",
+        "name": "OCR Document Processor",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/.agents/skills/ocr-document-processor/SKILL.md"
+      },
+      {
+        "id": "lark-okr",
+        "name": "okr (v2)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-okr/SKILL.md"
+      },
+      {
+        "id": "lark-openapi-explorer",
+        "name": "OpenAPI Explorer",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-openapi-explorer/SKILL.md"
+      },
+      {
+        "id": "opencli",
+        "name": "OpenCLI",
+        "source": "workspace",
+        "path": "/root/.agents/skills/opencli/SKILL.md"
+      },
+      {
+        "id": "web_search",
+        "name": "SearXNG Search",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/web_search/SKILL.md"
+      },
+      {
+        "id": "self-improving-agent",
+        "name": "Self-Improvement Skill",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/self-improving-agent/SKILL.md"
+      },
+      {
+        "id": "lark-sheets",
+        "name": "sheets",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-sheets/SKILL.md"
+      },
+      {
+        "id": "skill-creator",
+        "name": "Skill Creator",
+        "source": "workspace",
+        "path": "/root/.agents/skills/skill-creator/SKILL.md"
+      },
+      {
+        "id": "lark-skill-maker",
+        "name": "Skill Maker",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-skill-maker/SKILL.md"
+      },
+      {
+        "id": "find-skills",
+        "name": "SkillHub Skills 管理与查找",
+        "source": "workspace",
+        "path": "/root/.agents/skills/find-skills/SKILL.md"
+      },
+      {
+        "id": "lark-slides",
+        "name": "slides (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-slides/SKILL.md"
+      },
+      {
+        "id": "lark-task",
+        "name": "task (v2)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-task/SKILL.md"
+      },
+      {
+        "id": "lark-vc",
+        "name": "vc (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-vc/SKILL.md"
+      },
+      {
+        "id": "lark-vc-agent",
+        "name": "vc-agent (v1)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-vc-agent/SKILL.md"
+      },
+      {
+        "id": "video-editor",
+        "name": "Video Editor - 视频编辑器",
+        "source": "workspace",
+        "path": "/root/.agents/skills/video-editor/SKILL.md"
+      },
+      {
+        "id": "video-to-prompt",
+        "name": "Video to Prompt",
+        "source": "workspace",
+        "path": "/root/.agents/skills/video-to-prompt/SKILL.md"
+      },
+      {
+        "id": "vite-react-tailwind",
+        "name": "Vite + React + TailwindCSS v4 开发技能",
+        "source": "workspace",
+        "path": "/root/.agents/skills/vite-react-tailwind/SKILL.md"
+      },
+      {
+        "id": "lark-wiki",
+        "name": "wiki (v2)",
+        "source": "workspace",
+        "path": "/root/.agents/skills/lark-wiki/SKILL.md"
+      },
+      {
+        "id": "XUA-auto",
+        "name": "XUA-auto",
+        "source": "workspace",
+        "path": "/root/.agents/skills/XUA-auto/SKILL.md"
+      }
+    ],
+    "updatedAt": "2026-07-13T15:30:54.550Z"
+  }
+}
