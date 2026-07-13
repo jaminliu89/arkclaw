@@ -1,0 +1,232 @@
+{
+  "id": "claw-sentry",
+  "name": "ClawSentry",
+  "description": "ClawSentry plugin for OpenClaw, to protect your LLM models and Agent lifecycle (including tool calls) from harmful requests.",
+  "skills": ["./claw-sentry"],
+  "hooks": [
+    "before_tool_call",
+    "after_tool_call",
+    "before_dispatch",
+    "before_prompt_build",
+    "before_agent_finalize",
+    "llm_input",
+    "agent_end"
+  ],
+  "contracts": {
+    "tools": [
+      "clawSentryListConfig",
+      "clawSentryListInfo",
+      "clawSentryListAvailableTools"
+    ]
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "endpoint": {
+        "type": "string",
+        "description": "The API endpoint for the AI Assistant Security service."
+      },
+      "apiKey": {
+        "type": "string",
+        "description": "The API key for AI Assistant Security service."
+      },
+      "appId": {
+        "type": "string",
+        "description": "Application scenario, used to identify the business context of the current call."
+      },
+      "clawId": {
+        "type": "string",
+        "description": "Claw ID, used to identify the Claw instance."
+      },
+      "asClawId": {
+        "type": "string",
+        "description": "asClawId ID, used to identify the Claw instance."
+      },
+      "ctEndpoint": {
+        "type": "string",
+        "description": "Control component endpoint."
+      },
+      "lmEndpoint": {
+        "type": "string",
+        "description": "Moderation component endpoint."
+      },
+      "openClawDir": {
+        "type": "string",
+        "description": "The root directory of OpenClaw. If not provided, it defaults to the parent directory of the plugin's resolved path."
+      },
+      "configVersion": {
+        "type": "string",
+        "description": "Used for version management."
+      },
+      "clawType": {
+        "type": "string",
+        "description": "Claw type reported in heartbeat payload. Set to 'arkclaw' to enable Arkclaw-only hook timing logs collected by OneAgent. Default is 'openclaw'.",
+        "default": "openclaw"
+      },
+      "logRecord": {
+        "type": "boolean",
+        "description": "Whether to enable log recording.",
+        "default": false
+      },
+      "enableFetch": {
+        "type": "boolean",
+        "description": "Deprecated since 1.5.0-dlp. The legacy global.fetch interceptor has been retired in favor of the before_dispatch + before_prompt_build marker flow. This flag is now a no-op and will be removed in a future release.",
+        "default": false,
+        "deprecated": true
+      },
+      "enableBeforeToolCall": {
+        "type": "boolean",
+        "description": "Enable hook for before_tool_call event.",
+        "default": true
+      },
+      "enableAfterToolCall": {
+        "type": "boolean",
+        "description": "Enable hook for after_tool_call event.",
+        "default": true
+      },
+      "enableHeartbeat": {
+        "type": "boolean",
+        "description": "Enable heartbeat timer to log gateway status.",
+        "default": true
+      },
+      "enableHookPerfLocalLog": {
+        "type": "boolean",
+        "description": "Enable local file logging for periodic hook performance window stats. Lumen remote reporting remains enabled regardless of this flag.",
+        "default": false
+      },
+      "failureThreshold": {
+        "type": "integer",
+        "description": "The number of consecutive failures before triggering degradation. Default is 3.",
+        "default": 3
+      },
+      "retryInterval": {
+        "type": "integer",
+        "description": "The base interval in seconds to retry probing after degradation. Will increase exponentially. Default is 60 (1 minute).",
+        "default": 60
+      },
+      "maxRetryInterval": {
+        "type": "integer",
+        "description": "The maximum interval in seconds for exponential backoff. Default is 3600 (1 hour).",
+        "default": 3600
+      },
+      "timeoutMs": {
+        "type": "integer",
+        "description": "Request timeout in milliseconds for the moderation API. Default is 3000.",
+        "default": 3000
+      },
+      "dlpDetector": {
+        "type": "string",
+        "description": "DLP detector adapter routed through ClawSentry Lumen Moderate. Defaults to real for production-safe detection. Use mock only for explicit dev/test dry-run with an audit id.",
+        "default": "real",
+        "enum": ["mock", "real"]
+      },
+      "dlpMockAuditId": {
+        "type": "string",
+        "description": "Optional mock audit id for explicit DLP mock dry-run. Mock-only extension fields are emitted only when this value is explicitly provided. Do not put secrets here."
+      },
+      "dlpMockDecision": {
+        "type": "string",
+        "description": "Optional DLP mock decision for dry-run only. Emitted only with an explicit dlpMockAuditId. CALL_USER is the canonical runtime value for legacy REMIND UI semantics.",
+        "enum": ["PASS", "BLOCK", "MARK", "REPLACE", "OPTIMIZE", "CALL_USER", "timeout", "plugin_to_backend_timeout", "llmshield_5xx", "5xx", "circuit_open", "unsupported-file"]
+      },
+      "dlpPolicyId": {
+        "type": "string",
+        "description": "Optional DLP policy id override for dry-run evidence. Backend policy id should be authoritative in real mode."
+      },
+      "dlpDetectionRefs": {
+        "type": "string",
+        "description": "Typed DLP detection refs as JSON (LabelRefs/RuleRefs/MaasRefs/CommercialDataRefs) or legacy comma separated refs for compatibility."
+      },
+      "dlpDetectionType": {
+        "type": "string",
+        "description": "DLP detection type hint for evidence.",
+        "enum": ["traditional_dlp", "sample_model"]
+      },
+      "dlpDegradeStrategy": {
+        "type": "string",
+        "description": "DLP degrade strategy. Defaults to fail-open; fail-close only blocks on hooks with verified direct_block capability.",
+        "default": "fail-open",
+        "enum": ["fail-open", "fail-close"]
+      },
+      "dlpTimeoutBudgetMs": {
+        "type": "integer",
+        "description": "DLP moderation timeout budget in milliseconds recorded in Extensions. Defaults to timeoutMs or 30000.",
+        "default": 30000
+      },
+      "dlpInputGate": {
+        "type": "object",
+        "description": "Input-side DLP gate mode for before_dispatch. marker_only only records and injects a prompt marker; direct_block returns handled/text when runtime and policy support it.",
+        "additionalProperties": false,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "default": "marker_only",
+            "enum": ["marker_only", "direct_block"]
+          }
+        }
+      },
+      "dlpFileScanPolicy": {
+        "type": "string",
+        "description": "Optional JSON encoded FileScanPolicy override for supported small text file scanning and fallback actions. Supports MaxInlineScanFileSizeMB/TimeoutMs/FileTypeMatchers/FallbackActions. Defaults keep local file metadata fallbacks fail-open but fail-close remote FILE moderation timeout/unavailable/5xx/circuit-open cases, with 10MB inline limit and 1500ms timeout."
+      },
+      "dlpFileModerateEnabled": {
+        "type": "boolean",
+        "description": "Cloud-policy gate for remote LLMShield FILE multipart moderation. The data plane sends FILE multipart only when this is explicitly true and configVersion is enterprise_pro; default false avoids automatic file-scan traffic after upgrade.",
+        "default": false
+      },
+      "dlpFilePayloadFormat": {
+        "type": "string",
+        "description": "FILE multipart payload string format for remote file moderation. Lumen accepts the openclaw.file.v1 JSON base64 contract; legacy data_url_v1 is still accepted for backward compatibility but will be normalized to json_base64_v1.",
+        "default": "json_base64_v1",
+        "enum": ["json_base64_v1", "data_url_v1"]
+      },
+      "bootstrapSecurityMode": {
+        "type": "integer",
+        "description": "Optional local bootstrap override for SecurityMode when backend config is unavailable or unsuitable for local validation.",
+        "enum": [0, 1]
+      },
+      "bootstrapControlMode": {
+        "type": "integer",
+        "description": "Optional local bootstrap override for ControlMode when local validation must force monitor(1) or enforce(2).",
+        "enum": [1, 2]
+      },
+      "bootstrapInstanceStatus": {
+        "type": "string",
+        "description": "Optional local bootstrap override for claw instance lifecycle status used by enforcement gating."
+      },
+      "language": {
+        "type": "string",
+        "description": "Plugin language, supports 'en' (English) or 'zh' (Chinese). Default is 'en'.",
+        "default": "zh",
+        "enum": ["en", "zh"]
+      },
+      "pluginType": {
+        "type": "string",
+        "description": "Plugin deployment type. Use 'private' for private deployment."
+      }
+    }
+  },
+  "providerDiscoveryEntry": "./provider-discovery.js",
+  "providers": ["volcengine-aicc"],
+  "modelCatalog": {
+    "discovery": {
+      "volcengine-aicc": "static"
+    }
+  },
+  "providerAuthChoices": [
+    {
+      "provider": "volcengine-aicc",
+      "method": "api-key",
+      "choiceId": "volcengine-aicc-api-key",
+      "choiceLabel": "Volcengine AICC API key",
+      "groupId": "volcengine-aicc",
+      "groupLabel": "Volcengine AICC (Confidential)",
+      "groupHint": "API key",
+      "optionKey": "volcengineAiccApiKey",
+      "cliFlag": "--volcengine-aicc-api-key",
+      "cliOption": "--volcengine-aicc-api-key <key>",
+      "cliDescription": "Volcengine AICC API key for confidential models"
+    }
+  ]
+}

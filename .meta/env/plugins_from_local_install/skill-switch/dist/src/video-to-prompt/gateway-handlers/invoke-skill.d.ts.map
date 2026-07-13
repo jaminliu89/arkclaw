@@ -1,0 +1,1 @@
+{"version":3,"file":"invoke-skill.d.ts","sourceRoot":"","sources":["../../../../src/video-to-prompt/gateway-handlers/invoke-skill.ts"],"names":[],"mappings":"AAkBA,OAAO,KAAK,EAAE,iBAAiB,EAAE,cAAc,EAAa,MAAM,aAAa,CAAC;AAYhF,wBAAsB,iBAAiB,CACtC,GAAG,EAAE,iBAAiB,EACtB,GAAG,EAAE,cAAc,GACjB,OAAO,CAAC,IAAI,CAAC,CAqGf;AAED,wBAAgB,QAAQ,CAAC,GAAG,EAAE,iBAAiB,GAAG,IAAI,CAgBrD"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"delete-skill.d.ts","sourceRoot":"","sources":["../../../../src/video-to-prompt/gateway-handlers/delete-skill.ts"],"names":[],"mappings":"AAMA,OAAO,KAAK,EAAE,iBAAiB,EAAE,cAAc,EAAE,MAAM,aAAa,CAAC;AAYrE,wBAAsB,iBAAiB,CACtC,GAAG,EAAE,iBAAiB,EACtB,GAAG,EAAE,cAAc,GACjB,OAAO,CAAC,IAAI,CAAC,CAqFf;AAED,wBAAgB,QAAQ,CAAC,GAAG,EAAE,iBAAiB,GAAG,IAAI,CAgBrD"}

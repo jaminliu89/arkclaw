@@ -1,0 +1,1 @@
+{"version":3,"file":"otel.d.ts","sourceRoot":"","sources":["../../../../src/video-to-prompt/observability/otel.ts"],"names":[],"mappings":"AAOA,OAAO,EAAE,OAAO,EAAE,MAAM,yBAAyB,CAAC;AAelD,wBAAgB,QAAQ,CAAC,KAAK,EAAE,MAAM,EAAE,QAAQ,CAAC,EAAE,MAAM,GAAG,OAAO,GAAG,IAAI,CAsEzE;AAcD,wBAAsB,aAAa,IAAI,OAAO,CAAC,IAAI,CAAC,CA2BnD"}

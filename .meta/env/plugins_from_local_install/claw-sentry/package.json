@@ -1,0 +1,76 @@
+{
+  "name": "@volcengine/claw-sentry",
+  "version": "1.6.0",
+  "type": "module",
+  "description": "AI Assistant Security plugin for OpenClaw, to protect your LLM models and Agent lifecycle (including tool calls) from harmful requests.",
+  "packageManager": "pnpm@8.15.9",
+  "files": [
+    "package.json",
+    "bundle.js",
+    "provider-discovery.js",
+    "openclaw.plugin.json",
+    "README.md",
+    "claw-sentry"
+  ],
+  "scripts": {
+    "test": "pnpm build:tsc && node --test \"test/*.test.mjs\"",
+    "publish:ppe:volcengine": "pnpm build && node scripts/publish.js --target=ppe --scope=@volcengine",
+    "publish:ppe:byteplus": "pnpm build && node scripts/publish.js --target=ppe --scope=@byteplus",
+    "publish:ppe:both": "pnpm build && node scripts/publish.js --target=ppe --scopes=@volcengine,@byteplus",
+    "publish:ppe:beta:volcengine": "pnpm build && node scripts/publish.js --target=ppe --tag=beta --scope=@volcengine",
+    "publish:ppe:beta:byteplus": "pnpm build && node scripts/publish.js --target=ppe --tag=beta --scope=@byteplus",
+    "publish:ppe:beta:both": "pnpm build && node scripts/publish.js --target=ppe --tag=beta --scopes=@volcengine,@byteplus",
+    "publish:ppe:private:volcengine": "pnpm build && node scripts/publish.js --target=ppe --tag=private --scope=@volcengine",
+    "publish:prod:byteplus": "pnpm build && node scripts/publish.js --target=npm --scope=@byteplus",
+    "publish:prod:volcengine": "pnpm build && node scripts/publish.js --target=npm --scope=@volcengine",
+    "publish:prod:both": "pnpm build && node scripts/publish.js --target=npm --scopes=@volcengine,@byteplus",
+    "publish:prod:beta:volcengine": "pnpm build && node scripts/publish.js --target=npm --tag=beta --scope=@volcengine",
+    "publish:prod:beta:byteplus": "pnpm build && node scripts/publish.js --target=npm --tag=beta --scope=@byteplus",
+    "publish:prod:beta:both": "pnpm build && node scripts/publish.js --target=npm --tag=beta --scopes=@volcengine,@byteplus",
+    "publish:prod:private:volcengine": "pnpm build && node scripts/publish.js --target=npm --tag=private --scope=@volcengine",
+    "build": "esbuild index.ts --bundle --platform=node --target=node22 --outfile=bundle.js --external:./package.json --external:openclaw --define:process.env={} && esbuild src/volcengine-aicc/provider-discovery.ts --bundle --platform=node --target=node22 --outfile=provider-discovery.js --external:./package.json --external:openclaw --define:process.env={}",
+    "build:tsc": "tsc"
+  },
+  "openclaw": {
+    "providerDiscoveryEntry": "./provider-discovery.js",
+    "providers": [
+      "volcengine-aicc"
+    ],
+    "providerAuthChoices": [
+      {
+        "provider": "volcengine-aicc",
+        "method": "api-key",
+        "default": true
+      }
+    ],
+    "hooks": [
+      "before_tool_call",
+      "after_tool_call",
+      "before_dispatch",
+      "before_prompt_build",
+      "before_agent_finalize",
+      "llm_input",
+      "agent_end"
+    ],
+    "extensions": [
+      "./bundle.js"
+    ],
+    "build": {
+      "openclawVersion": "2026.5.20"
+    },
+    "release": {
+      "publishToNpm": true
+    }
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.5.4"
+  },
+  "peerDependenciesMeta": {
+    "openclaw": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

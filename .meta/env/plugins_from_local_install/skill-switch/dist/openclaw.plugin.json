@@ -1,0 +1,124 @@
+{
+  "id": "skill-switch",
+  "enabledByDefault": true,
+  "name": "Skill Switch",
+  "version": "2026.6.10",
+  "activation": {
+    "onStartup": true
+  },
+  "description": "Switch active skill for the current session and clean up tool call history",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "injection": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Config namespace for skill prompt injection policy.",
+        "properties": {
+          "lowPrioritySkills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              "XUA-auto"
+            ],
+            "description": "Skill ids injected as low-priority available skill directory entries instead of high-priority preferred skills."
+          }
+        }
+      },
+      "videoToPrompt": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Config namespace for the video-to-prompt module (ffmpeg recording, prompt analysis, and vtp-recording persistence).",
+        "properties": {
+          "maxRecordingSeconds": {
+            "type": "number",
+            "minimum": 1,
+            "description": "User-facing recording cap in seconds (default 120). Auto-stop watchdog fires at this exact value.",
+            "default": 120
+          },
+          "maxRecordingGraceSeconds": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Extra seconds beyond maxRecordingSeconds for ffmpeg hard cap (default 10). ffmpeg -t = maxRecordingSeconds + this value.",
+            "default": 10
+          },
+          "maxRecordingSizeMB": {
+            "type": "number",
+            "default": 300,
+            "minimum": 1,
+            "description": "Hard cap on final video file size (MB) after stop. If exceeded, recording is patched to status=failed with error='oversize'. Default 300MB \u2248 20 min at 1920x1080 / 15fps / CRF28."
+          },
+          "ffmpegBin": {
+            "type": "string",
+            "description": "Path to ffmpeg executable (default 'ffmpeg').",
+            "default": "ffmpeg"
+          },
+          "display": {
+            "type": "string",
+            "description": "X11 DISPLAY for x11grab (default ':99').",
+            "default": ":99"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Recording resolution (default '1920x1080').",
+            "default": "1920x1080"
+          },
+          "framerate": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60,
+            "description": "Recording framerate, integer in [1, 60] (default 15). Runtime clamps non-finite / out-of-range values to default.",
+            "default": 15
+          },
+          "skillScriptPath": {
+            "type": "string",
+            "description": "Absolute path to the video-to-prompt skill's video-to-prompt.sh. Default: located via skill-discovery, falling back to <HOME>/.agents/skills/video-to-prompt/scripts/video-to-prompt.sh when not discovered. Must reside under a discovered skill root or <HOME>/.agents/skills (allowlist); if you point it elsewhere it will be refused."
+          },
+          "vtpHome": {
+            "type": "string",
+            "description": "Root directory for VTP config + run artifacts (mirrors ~/.cua layout). Default: $HOME/.vtp. Also overridable via VTP_HOME env."
+          },
+          "recordingRetentionDays": {
+            "type": "number",
+            "default": 7,
+            "minimum": 1,
+            "description": "Recording directory retention in days. A recording's whole runs/<id>/ directory (events.jsonl, prompt.json, meta.json, video.mp4, reference/) and its state entry are pruned once endedAt is older than this. Does NOT govern /var/log diagnostic logs — those have an independent 2GB + 14-day cap in logger.ts."
+          },
+          "maxReferenceCount": {
+            "type": "number",
+            "default": 100,
+            "minimum": 1,
+            "description": "LRU cap for vtp-recording/reference/ entries. When saveAsSkill would push the count past this, the oldest non-pinned entries are removed."
+          },
+          "vtpRecordingRoot": {
+            "type": "string",
+            "default": "skills/vtp-recording",
+            "description": "Workspace-relative directory hosting the vtp-recording skill bundle. saveAsSkill auto-generates a top-level SKILL.md here on first write."
+          },
+          "relayTimeoutSeconds": {
+            "type": "integer",
+            "default": 600,
+            "minimum": 60,
+            "maximum": 1800,
+            "description": "二期 F-A：saveVideoToMount 中继任务超时（秒）。挂载点 TOS 走内网传输很快,5min 视频高码率约 1-2 GB 内网 10-20s 完成;default 600s 留 safety margin 应对网络抖动。一期硬编码 30s 已拉宽。"
+          },
+          "skillIndexRebuildIntervalHours": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 24,
+            "description": "二期 F-B：skill-index-scheduler 周期任务间隔（小时）。0 = 关周期任务（仅启动 self-heal）"
+          },
+          "otelEndpoint": {
+            "type": "string",
+            "default": "http://localhost:4318",
+            "description": "OTLP collector base endpoint for VTP observability — serves both traces and metrics (no /v1/* suffix; the SDK appends signal paths). Config-driven, mirrors CUA's single config.otel.endpoint. The plugin initializes OTel with it and propagates it (via OTEL_EXPORTER_OTLP_ENDPOINT) to the spawned runtime SEA. Default http://localhost:4318."
+          }
+        }
+      }
+    }
+  }
+}

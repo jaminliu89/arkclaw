@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "web-search": {
+      "version": "1.0.0",
+      "installedAt": 1772440175432
+    },
+    "self-improving-agent": {
+      "version": "1.0.11",
+      "installedAt": 1772440193937
+    },
+    "bluebubbles": {
+      "version": "1.0.0",
+      "installedAt": 1772440205954
+    },
+    "github": {
+      "version": "1.0.0",
+      "installedAt": 1772440213641
+    },
+    "notion": {
+      "version": "1.0.0",
+      "installedAt": 1772440234121
+    },
+    "slack": {
+      "version": "1.0.0",
+      "installedAt": 1772440240388
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "name": "@openclaw/skill-switch",
+  "version": "2026.6.26",
+  "description": "OpenClaw Skill Switch plugin",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./src/types": {
+      "types": "./dist/src/types.d.ts",
+      "default": "./dist/src/types.js"
+    }
+  },
+  "files": [
+    "dist",
+    "openclaw.plugin.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && cp openclaw.plugin.json README.md dist/",
+    "build:watch": "tsc --project tsconfig.build.json --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+	"dependencies": {
+		"@opentelemetry/api": "^1.9.0",
+		"@opentelemetry/context-async-hooks": "~1.26.0",
+		"@opentelemetry/sdk-node": "^0.53.0",
+		"@opentelemetry/sdk-trace-base": "~1.26.0",
+		"@opentelemetry/sdk-metrics": "~1.26.0",
+		"@opentelemetry/exporter-trace-otlp-proto": "^0.53.0",
+		"@opentelemetry/exporter-metrics-otlp-proto": "^0.53.0",
+		"@opentelemetry/resources": "~1.26.0",
+		"@opentelemetry/semantic-conventions": "~1.26.0",
+		"rotating-file-stream": "^3.2.7"
+	},
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "typescript": "^5.0.0",
+    "openclaw": "^2026.5.4",
+    "vitest": "^1.0.0"
+  },
+  "openclaw": {
+    "extensions": [
+      "./dist/index.js"
+    ],
+    "compat": {
+      "pluginApi": ">=2026.3.24-beta.2",
+      "minGatewayVersion": "2026.3.24-beta.2"
+    },
+    "build": {
+      "openclawVersion": "2026.5.4",
+      "pluginSdkVersion": "2026.5.4"
+    }
+  },
+  "keywords": [
+    "openclaw",
+    "plugin",
+    "skill",
+    "switch"
+  ],
+  "license": "MIT"
+}

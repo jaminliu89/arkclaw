@@ -1,0 +1,11 @@
+{"name":"apmplus-openclaw-plugin","source":"npm","spec":"@volcengine/apmplus-openclaw-plugin@0.1.40","version":"0.1.40"}
+{"name":"arkclaw-appcenter","source":"archive","spec":"arkclaw-appcenter","version":"1.1.2","sourcePath":"/root/.openclaw/extensions/arkclaw-appcenter"}
+{"name":"claw-sentry","source":"archive","spec":"claw-sentry","version":"1.6.0","sourcePath":"/root/.openclaw/extensions/claw-sentry"}
+{"name":"codex","source":"archive","spec":"codex","version":"2026.5.28","sourcePath":"/root/.openclaw/extensions/codex"}
+{"name":"dingtalk-connector","source":"archive","spec":"@duckduck-cocode/dingtalk-connector@0.8.7","version":"0.8.7","sourcePath":"/root/.openclaw/extensions/dingtalk-connector"}
+{"name":"knowledge-center","source":"archive","spec":"knowledge-center","version":"1.0.3","sourcePath":"/root/.openclaw/extensions/knowledge-center"}
+{"name":"openclaw-lark","source":"archive","spec":"openclaw-lark","version":"2026.3.29","sourcePath":"/root/.openclaw/extensions/openclaw-lark"}
+{"name":"openclaw-weixin","source":"npm","spec":"@tencent-weixin/openclaw-weixin@2.1.9","version":"2.1.9"}
+{"name":"skill-switch","source":"path","spec":"skill-switch","version":"2026.4.1","sourcePath":"/root/.openclaw/extensions/skill-switch"}
+{"name":"wecom-openclaw-plugin","source":"archive","spec":"wecom-openclaw-plugin","version":"2026.5.25","sourcePath":"/root/.openclaw/extensions/wecom-openclaw-plugin"}
+{"name":"weibo-openclaw-plugin","source":"npm","spec":"@wecode-ai/weibo-openclaw-plugin@2.1.1","version":"2.1.1"}

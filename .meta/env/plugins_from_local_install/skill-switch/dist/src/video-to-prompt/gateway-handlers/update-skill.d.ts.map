@@ -1,0 +1,1 @@
+{"version":3,"file":"update-skill.d.ts","sourceRoot":"","sources":["../../../../src/video-to-prompt/gateway-handlers/update-skill.ts"],"names":[],"mappings":"AAiCA,OAAO,KAAK,EAAE,iBAAiB,EAAE,cAAc,EAAE,MAAM,aAAa,CAAC;AASrE,wBAAsB,iBAAiB,CACtC,GAAG,EAAE,iBAAiB,EACtB,GAAG,EAAE,cAAc,GACjB,OAAO,CAAC,IAAI,CAAC,CAmIf;AAED,wBAAgB,QAAQ,CAAC,GAAG,EAAE,iBAAiB,GAAG,IAAI,CAgBrD"}

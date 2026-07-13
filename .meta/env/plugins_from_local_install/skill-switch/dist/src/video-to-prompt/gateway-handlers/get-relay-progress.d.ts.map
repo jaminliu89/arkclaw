@@ -1,0 +1,1 @@
+{"version":3,"file":"get-relay-progress.d.ts","sourceRoot":"","sources":["../../../../src/video-to-prompt/gateway-handlers/get-relay-progress.ts"],"names":[],"mappings":"AASA,OAAO,KAAK,EAAE,iBAAiB,EAAE,cAAc,EAAE,MAAM,aAAa,CAAC;AAMrE,wBAAsB,sBAAsB,CAC3C,GAAG,EAAE,iBAAiB,EACtB,GAAG,EAAE,cAAc,GACjB,OAAO,CAAC,IAAI,CAAC,CA+Bf;AAED,wBAAgB,QAAQ,CAAC,GAAG,EAAE,iBAAiB,GAAG,IAAI,CAerD"}

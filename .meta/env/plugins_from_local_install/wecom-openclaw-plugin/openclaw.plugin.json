@@ -1,0 +1,19 @@
+{
+  "id": "wecom-openclaw-plugin",
+  "channels": [
+    "wecom"
+  ],
+  "contracts": {
+    "tools": [
+      "wecom_mcp"
+    ]
+  },
+  "skills": [
+    "./skills"
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}

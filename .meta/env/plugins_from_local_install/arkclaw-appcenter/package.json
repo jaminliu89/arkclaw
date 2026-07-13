@@ -1,0 +1,80 @@
+{
+  "name": "arkclaw-appcenter",
+  "version": "1.1.2",
+  "type": "module",
+  "description": "ArkClaw Plugin for AppCenter integration",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "NODE_PATH=./node_modules node dist/index.js",
+    "build": "NODE_PATH=./node_modules tsup --config tsup.config.ts",
+    "dev": "tsc --watch",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts"
+  },
+  "keywords": [
+    "openclaw",
+    "a2a",
+    "agent-to-agent",
+    "arkclaw",
+    "plugin",
+    "multi-agent",
+    "gateway",
+    "appcenter"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/win4r/openclaw-a2a-gateway.git"
+  },
+  "homepage": "https://github.com/win4r/openclaw-a2a-gateway#readme",
+  "dependencies": {},
+  "openclaw": {
+    "compat": {
+      "pluginApi": "^2026.3.24"
+    },
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "devDependencies": {
+    "@a2a-js/sdk": "^0.3.13",
+    "@bufbuild/protobuf": "^2.11.0",
+    "@grpc/grpc-js": "^1.14.3",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^15.3.1",
+    "@sinclair/typebox": "^0.34.0",
+    "@types/adm-zip": "^0.5.8",
+    "@types/express": "^5.0.6",
+    "@types/mustache": "^4.2.6",
+    "@types/node": "^25.5.2",
+    "@types/supertest": "^2.0.16",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@volcengine/sdk-core": "^1.0.0",
+    "adm-zip": "^0.5.16",
+    "eslint": "^8.57.0",
+    "express": "^4.21.2",
+    "javascript-obfuscator": "^5.4.1",
+    "multicast-dns": "^7.2.5",
+    "mustache": "^4.2.0",
+    "openclaw": "^2026.3.24",
+    "rollup-plugin-javascript-obfuscator": "^1.0.4",
+    "rotating-file-stream": "^3.2.9",
+    "supertest": "^7.1.4",
+    "tslog": "^4.9.3",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3",
+    "uuid": "^13.0.0",
+    "volcengine-sdk": "^0.0.2",
+    "ws": "^8.20.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "knowledge-center",
+  "version": "1.0.3",
+  "private": true,
+  "description": "Record user and assistant visible text by session into per-session JSON files",
+  "files": ["index.js", "src", "openclaw.plugin.json", "skills"],
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"src/test/**/*.test.js\""
+  },
+  "openclaw": {
+    "extensions": ["./index.js"]
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.3.24-beta.2"
+  },
+  "devDependencies": {
+    "openclaw": ">=2026.3.24-beta.2"
+  }
+}

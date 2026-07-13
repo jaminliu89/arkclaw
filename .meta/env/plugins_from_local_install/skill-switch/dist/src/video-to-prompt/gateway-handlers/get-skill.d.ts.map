@@ -1,0 +1,1 @@
+{"version":3,"file":"get-skill.d.ts","sourceRoot":"","sources":["../../../../src/video-to-prompt/gateway-handlers/get-skill.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,iBAAiB,EAAE,cAAc,EAAE,MAAM,aAAa,CAAC;AAKrE,wBAAsB,cAAc,CAClC,GAAG,EAAE,iBAAiB,EACtB,GAAG,EAAE,cAAc,GAClB,OAAO,CAAC,IAAI,CAAC,CAiBf;AAED,wBAAgB,QAAQ,CAAC,GAAG,EAAE,iBAAiB,GAAG,IAAI,CAIrD"}

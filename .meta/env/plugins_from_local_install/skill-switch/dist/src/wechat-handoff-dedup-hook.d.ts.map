@@ -1,0 +1,1 @@
+{"version":3,"file":"wechat-handoff-dedup-hook.d.ts","sourceRoot":"","sources":["../../src/wechat-handoff-dedup-hook.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,YAAY,CAAC;AA6DpD,wBAAgB,4BAA4B,CAAC,GAAG,EAAE,iBAAiB,IAEjE,OAAO,GAAG,EACV,MAAM,GAAG,KACP;IAAE,MAAM,EAAE,OAAO,CAAC;IAAC,YAAY,CAAC,EAAE,MAAM,CAAA;CAAE,GAAG,SAAS,CAiDzD"}

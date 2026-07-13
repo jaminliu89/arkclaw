@@ -1,0 +1,42 @@
+{
+  "id": "knowledge-center",
+  "name": "knowledge-center",
+  "version": "1.0.3",
+  "description": "Record user and assistant visible text by session into per-session JSON files",
+  "skills": ["skills/byted-knowledge-center-aisearch"],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "maxMessagesPerSession": {
+        "type": "number",
+        "description": "Max retained user/assistant messages per session"
+      },
+      "maxCharsPerMessage": {
+        "type": "number",
+        "description": "Max retained chars for each message"
+      },
+      "sessionTtlDays": {
+        "type": "number",
+        "description": "Delete session files not updated for this many days (default: 7)"
+      }
+    }
+  },
+  "uiHints": {
+    "maxMessagesPerSession": {
+      "label": "Max messages per session",
+      "placeholder": "40",
+      "description": "Maximum number of user/assistant messages retained per session"
+    },
+    "maxCharsPerMessage": {
+      "label": "Max characters per message",
+      "placeholder": "1000",
+      "description": "Maximum characters retained for each message; longer text will be truncated"
+    },
+    "sessionTtlDays": {
+      "label": "Session TTL (days)",
+      "placeholder": "7",
+      "description": "Session files not updated for this many days will be removed"
+    }
+  }
+}
