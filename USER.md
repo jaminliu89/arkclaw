@@ -6,7 +6,7 @@
 - **What to call them:** （未告知）
 - **Pronouns:** *(optional)*
 - **Timezone:** Asia/Shanghai
-- **Notes:** 博主，内容方向：AI资讯、AI技巧、摄影。受众画像：20-40岁。维度裂隙MCN联合创始人。
+- **Notes:** 博主，内容方向：AI资讯、AI技巧、摄影。受众画像：20-40岁。维度裂隙MCN联合创始人。运营5平台：抖音/小红书/视频号/B站/快手。
 - **Owner User ID:**
 
 ## Context
