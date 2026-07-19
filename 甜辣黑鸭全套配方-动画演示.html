@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>甜辣黑鸭全套配方 - 交互式动画</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;background:#f5f0ea;color:#2c2420;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(160deg,#2c1810 0%,#4a2818 40%,#6a3828 100%)}
+.hero h1{font-size:clamp(2rem,6vw,4rem);font-weight:700;color:#f0d8c0;letter-spacing:0.05em;margin-bottom:1rem}
+.hero .sub{font-size:clamp(1rem,2.5vw,1.5rem);color:#c8a888;font-weight:300;max-width:600px;line-height:1.6}
+.hero .scroll-hint{position:absolute;bottom:2rem;font-size:0.85rem;color:#a08070;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+.section{padding:4rem 1.5rem;max-width:1000px;margin:0 auto;min-height:80vh;display:flex;flex-direction:column;justify-content:center}
+.section-title{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:700;color:#3a281e;margin-bottom:0.75rem}
+.section-desc{font-size:1.1rem;color:#6b5a4a;line-height:1.7;margin-bottom:2.5rem;max-width:700px}
+.visual-container{width:100%;display:flex;justify-content:center;align-items:center;padding:1.5rem 0}
+.visual-container svg{width:100%;max-width:750px;height:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:2rem}
+.card{background:#fff;border-radius:12px;padding:1.75rem;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
+.card h3{font-size:1.1rem;font-weight:600;color:#3a281e;margin-bottom:0.5rem}
+.card p{font-size:0.95rem;color:#6b5a4a;line-height:1.6}
+.timeline{position:relative;margin:2rem 0;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:3px;background:#c44528;border-radius:2px}
+.timeline-item{position:relative;margin-bottom:2rem;padding-left:1.5rem}
+.timeline-item::before{content:'';position:absolute;left:-1.7rem;top:0.35rem;width:14px;height:14px;border-radius:50%;background:#c44528;border:3px solid #f5f0ea}
+.timeline-item h4{font-size:1rem;color:#3a281e;margin-bottom:0.25rem}
+.timeline-item p{font-size:0.9rem;color:#6b5a4a;line-height:1.5}
+.timeline-item .time{font-size:0.8rem;color:#c44528;font-weight:600}
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:10px;border:1px solid #e0d5c8}
+table{width:100%;border-collapse:collapse;font-size:0.9rem}
+th{background:#c44528;color:#fff;padding:0.75rem 1rem;text-align:left;font-weight:600}
+td{padding:0.75rem 1rem;border-bottom:1px solid #f0e8e0}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even){background:#faf5f0}
+tr:hover{background:#f0e8e0}
+.flow-chart{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin:1.5rem 0}
+.flow-node{background:#fff;border-radius:8px;padding:0.75rem 1rem;border:1px solid #e0d5c8;font-size:0.85rem;color:#3a281e;text-align:center;min-width:80px}
+.flow-node.active{background:#c44528;color:#fff;border-color:#c44528}
+.flow-arrow{color:#c44528;font-size:1.2rem;line-height:2.5}
+footer{text-align:center;padding:3rem 1.5rem;color:#8a7a6a;font-size:0.85rem;border-top:1px solid #e0d5c8}
+@media(max-width:600px){.flow-chart{flex-direction:column;align-items:center}.flow-arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h1>甜辣黑鸭全套配方</h1>
+  <p class="sub">从清水到成品鸭货的完整四天流程</p>
+  <svg viewBox="0 0 400 300" style="max-width:400px;margin:2rem auto">
+    <defs>
+      <linearGradient id="lg1" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#f0d8c0"/>
+        <stop offset="100%" stop-color="#2c1810"/>
+      </linearGradient>
+    </defs>
+    <!-- Large pot -->
+    <path d="M80 240 L80 130 Q80 80 130 65 L270 65 Q320 80 320 130 L320 240 Z" fill="#3a281e" stroke="#2c1810" stroke-width="3"/>
+    <rect x="65" y="60" width="270" height="14" rx="7" fill="#6a3828" stroke="#2c1810" stroke-width="2"/>
+    <!-- Broth color gradient -->
+    <rect x="88" y="110" width="224" height="125" rx="6" fill="url(#lg1)" opacity="0.6" id="broth-fill"/>
+    <!-- Steam -->
+    <path d="M140 50 Q145 30 140 10" fill="none" stroke="#c8a888" stroke-width="2" opacity="0.4" class="st1"/>
+    <path d="M200 45 Q205 25 200 5" fill="none" stroke="#c8a888" stroke-width="2" opacity="0.4" class="st2"/>
+    <path d="M260 50 Q265 30 260 10" fill="none" stroke="#c8a888" stroke-width="2" opacity="0.4" class="st3"/>
+    <!-- Duck pieces -->
+    <path d="M150 180 Q165 170 175 180 Q180 190 165 195 Q150 190 150 180Z" fill="#8a5a3a" opacity="0.7"/>
+    <path d="M220 170 Q235 160 245 170 Q250 180 235 185 Q220 180 220 170Z" fill="#8a5a3a" opacity="0.7"/>
+    <circle cx="190" cy="185" r="8" fill="#8a5a3a" opacity="0.6"/>
+    <circle cx="210" cy="190" r="7" fill="#8a5a3a" opacity="0.6"/>
+    <!-- Label -->
+    <text x="200" y="275" text-anchor="middle" font-size="14" fill="#c8a888" font-weight="600">4天 · 从清水到老卤</text>
+  </svg>
+  <div class="scroll-hint">向下滚动探索</div>
+</section>
+
+<!-- ============ 流程总览 ============ -->
+<section class="section">
+  <h2 class="section-title">核心流程</h2>
+  <p class="section-desc">四天时间，从清水到一锅能卤出甜辣黑鸭的老卤。每一锅鸡架都有它的使命。</p>
+  <div class="flow-chart">
+    <div class="flow-node">清水</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">高汤</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">卤汤</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">醒汤24h</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">第1锅鸡架<br><span style="font-size:0.75rem;color:#c44528">去苦</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">醒汤24h</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">第2锅鸡架<br><span style="font-size:0.75rem;color:#c44528">增香</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">醒汤24h</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">卤鸭货</div>
+  </div>
+</section>
+
+<!-- ============ 高汤 ============ -->
+<section class="section">
+  <h2 class="section-title">清水变高汤</h2>
+  <p class="section-desc">40斤清水熬成25斤高汤。大火冲白，小火出味。高汤只需熬一次，以后循环补水就行。</p>
+  <div class="visual-container">
+    <svg viewBox="0 0 700 260">
+      <!-- Before -->
+      <g transform="translate(0,10)">
+        <rect x="20" y="20" width="180" height="200" rx="12" fill="#e0d8d0" stroke="#8a7a6a" stroke-width="2"/>
+        <text x="110" y="55" text-anchor="middle" font-size="14" font-weight="600" fill="#3a281e">40斤清水</text>
+        <rect x="40" y="70" width="140" height="130" rx="6" fill="#a0d0e8" opacity="0.4"/>
+        <text x="110" y="150" text-anchor="middle" font-size="12" fill="#6b5a4a">骨头 鸡架 猪皮</text>
+        <text x="110" y="170" text-anchor="middle" font-size="12" fill="#6b5a4a">老母鸡 牛棒骨</text>
+        <text x="110" y="190" text-anchor="middle" font-size="11" fill="#8a7a6a">+ 葱姜 白酒</text>
+      </g>
+      <!-- Arrow -->
+      <g transform="translate(200,60)">
+        <text x="40" y="20" text-anchor="middle" font-size="13" fill="#c44528" font-weight="600">小火2h</text>
+        <text x="40" y="40" text-anchor="middle" font-size="13" fill="#c44528" font-weight="600">大火1h</text>
+        <path d="M10 70 L70 70 L60 60 M70 70 L60 80" fill="none" stroke="#c44528" stroke-width="2.5"/>
+      </g>
+      <!-- After -->
+      <g transform="translate(300,10)">
+        <rect x="20" y="20" width="180" height="200" rx="12" fill="#e0d8d0" stroke="#8a7a6a" stroke-width="2"/>
+        <text x="110" y="55" text-anchor="middle" font-size="14" font-weight="600" fill="#3a281e">25斤高汤</text>
+        <rect x="40" y="70" width="140" height="130" rx="6" fill="#d4c490" opacity="0.5"/>
+        <text x="110" y="140" text-anchor="middle" font-size="12" fill="#6b5a4a">奶白色</text>
+        <text x="110" y="160" text-anchor="middle" font-size="12" fill="#6b5a4a">骨肉精华全在汤里</text>
+      </g>
+      <!-- Note -->
+      <g transform="translate(510,20)">
+        <rect x="0" y="0" width="180" height="220" rx="10" fill="#fff" stroke="#c44528" stroke-width="1.5"/>
+        <text x="90" y="30" text-anchor="middle" font-size="13" font-weight="600" fill="#c44528">两种调整</text>
+        <text x="90" y="60" text-anchor="middle" font-size="12" fill="#3a281e">汤多</text>
+        <text x="90" y="80" text-anchor="middle" font-size="11" fill="#6b5a4a">打出多余，留25斤</text>
+        <line x1="20" y1="95" x2="160" y2="95" stroke="#e0d5c8" stroke-width="1"/>
+        <text x="90" y="120" text-anchor="middle" font-size="12" fill="#3a281e">汤少</text>
+        <text x="90" y="140" text-anchor="middle" font-size="11" fill="#6b5a4a">骨肉渣再熬一遍</text>
+        <text x="90" y="160" text-anchor="middle" font-size="11" fill="#6b5a4a">过滤加回高汤</text>
+        <line x1="20" y1="175" x2="160" y2="175" stroke="#e0d5c8" stroke-width="1"/>
+        <text x="90" y="195" text-anchor="middle" font-size="11" fill="#8a7a6a">高汤只熬一次</text>
+        <text x="90" y="215" text-anchor="middle" font-size="11" fill="#8a7a6a">后续循环补水</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ 炒糖色 ============ -->
+<section class="section">
+  <h2 class="section-title">炒糖色</h2>
+  <p class="section-desc">卤水上色的关键步骤。25斤高汤配5斤白砂糖，从糖到焦糖色的蜕变。三锅一循环。</p>
+  <div class="visual-container">
+    <svg viewBox="0 0 700 280">
+      <!-- Step 1: Sugar -->
+      <g transform="translate(0,10)">
+        <rect x="20" y="30" width="150" height="160" rx="10" fill="#fff" stroke="#e0d5c8" stroke-width="1.5"/>
+        <text x="95" y="55" text-anchor="middle" font-size="13" font-weight="600" fill="#3a281e">白砂糖</text>
+        <rect x="40" y="70" width="110" height="80" rx="6" fill="#f0e8e0"/>
+        <rect x="50" y="80" width="90" height="12" rx="3" fill="#f8f0e8" stroke="#d0c8c0" stroke-width="1"/>
+        <rect x="50" y="98" width="90" height="12" rx="3" fill="#f8f0e8" stroke="#d0c8c0" stroke-width="1"/>
+        <rect x="50" y="116" width="90" height="12" rx="3" fill="#f8f0e8" stroke="#d0c8c0" stroke-width="1"/>
+        <rect x="50" y="134" width="90" height="12" rx="3" fill="#f8f0e8" stroke="#d0c8c0" stroke-width="1"/>
+        <text x="95" y="170" text-anchor="middle" font-size="11" fill="#8a7a6a">5斤白砂糖</text>
+      </g>
+      <!-- Arrow -->
+      <path d="M180 120 L220 120" stroke="#c44528" stroke-width="2.5" marker-end="url(#arrow)"/>
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M0,0 L10,5 L0,10 Z" fill="#c44528"/>
+        </marker>
+      </defs>
+      
+      <!-- Step 2: Melting -->
+      <g transform="translate(230,10)">
+        <rect x="20" y="30" width="150" height="160" rx="10" fill="#fff" stroke="#e0d5c8" stroke-width="1.5"/>
+        <text x="95" y="55" text-anchor="middle" font-size="13" font-weight="600" fill="#3a281e">熔化</text>
+        <rect x="40" y="70" width="110" height="80" rx="6" fill="#f0e0c0"/>
+        <circle cx="70" cy="100" r="8" fill="#e0b070" opacity="0.6"/>
+        <circle cx="100" cy="95" r="10" fill="#d0a060" opacity="0.6"/>
+        <circle cx="125" cy="105" r="7" fill="#e0b070" opacity="0.5"/>
+        <text x="95" y="170" text-anchor="middle" font-size="11" fill="#8a7a6a">中火不停翻炒</text>
+      </g>
+      <!-- Arrow -->
+      <path d="M410 120 L450 120" stroke="#c44528" stroke-width="2.5"/>
+      
+      <!-- Step 3: Bubbles -->
+      <g transform="translate(460,10)">
+        <rect x="20" y="30" width="150" height="160" rx="10" fill="#fff" stroke="#c44528" stroke-width="2"/>
+        <text x="95" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="#c44528">关火!</text>
+        <rect x="40" y="70" width="110" height="80" rx="6" fill="#a06030"/>
+        <circle cx="65" cy="95" r="6" fill="#c08040" opacity="0.7"/>
+        <circle cx="85" cy="85" r="8" fill="#c08040" opacity="0.7"/>
+        <circle cx="105" cy="98" r="7" fill="#b07038" opacity="0.7"/>
+        <circle cx="125" cy="88" r="6" fill="#c08040" opacity="0.6"/>
+        <circle cx="140" cy="105" r="5" fill="#b07038" opacity="0.5"/>
+        <text x="95" y="170" text-anchor="middle" font-size="11" fill="#c44528" font-weight="600">沫子铺满 → 炸开</text>
+      </g>
+      
+      <!-- Result -->
+      <g transform="translate(230,190)">
+        <rect x="20" y="0" width="340" height="50" rx="8" fill="#5a3020" stroke="#3a2010" stroke-width="1.5"/>
+        <text x="190" y="20" text-anchor="middle" font-size="13" font-weight="600" fill="#f0d8c0">糖色完成：又红又亮</text>
+        <text x="190" y="38" text-anchor="middle" font-size="11" fill="#c8a888">立即倒回高汤，不要等变粘</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ 时间线：4天 ============ -->
+<section class="section">
+  <h2 class="section-title">四天时间线</h2>
+  <p class="section-desc">从新汤到老卤，需要耐心等待每一锅的沉淀。</p>
+  <div class="timeline">
+    <div class="timeline-item">
+      <span class="time">Day 1</span>
+      <h4>熬高汤 + 调卤汤 + 炒糖色</h4>
+      <p>40斤清水熬成25斤高汤。调好卤汤，静置24小时醒汤。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="time">Day 2</span>
+      <h4>第一锅鸡架（去苦）</h4>
+      <p>新汤糖色只加一回，鸡架吸走苦味。卤30分钟不泡，滤料后静置24小时。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="time">Day 3</span>
+      <h4>第二锅鸡架（增香）</h4>
+      <p>卤汤明显变浓，鸡架开始挂汁。滤出的料全部扔掉用新料。静置24小时。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="time">Day 4</span>
+      <h4>正式卤鸭货</h4>
+      <p>卤汤已经变老卤。按时间表分批下货，浸泡20分钟，出锅回生。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 卤制时间表 ============ -->
+<section class="section">
+  <h2 class="section-title">卤制时间表</h2>
+  <p class="section-desc">不同鸭货卤制时间不同。按顺序分批下锅，保证每样火候刚好。</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>顺序</th>
+          <th>食材</th>
+          <th>卤制时间</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>鸭腿、鸭脖</td>
+          <td>汤开计时10分钟</td>
+          <td>先下，最耐煮</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>鸭头、鸭胗</td>
+          <td>继续10分钟</td>
+          <td>不能硬怼，顺着劲下</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>锁骨</td>
+          <td>继续10分钟</td>
+          <td>压不下去正常，汤开自动下沉</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>鸭翅、鸭掌、鸭心、鸡爪</td>
+          <td>继续10分钟</td>
+          <td>小东西可用卤货袋</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>鸭舌</td>
+          <td>最后10分钟</td>
+          <td>最后下，同时下麦芽糖</td>
+        </tr>
+        <tr>
+          <td>—</td>
+          <td>白酒</td>
+          <td>最后5分钟</td>
+          <td>关火前5分钟下</td>
+        </tr>
+        <tr>
+          <td>—</td>
+          <td>浸泡</td>
+          <td>20分钟</td>
+          <td>关火后压篦子浸泡入味</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 补汤公式 ============ -->
+<section class="section">
+  <h2 class="section-title">补汤计算公式</h2>
+  <p class="section-desc">每次卤完汤量会减少，需要按公式补水补料，保持25斤恒定标准。</p>
+  <div class="cards">
+    <div class="card">
+      <h3>补水量</h3>
+      <p><strong>补水量 = (25 - 剩余净汤) + 25 × 10%</strong></p>
+      <p style="margin-top:0.5rem;font-size:0.85rem;color:#8a7a6a">例如：剩17斤 → 补8斤到25斤 + 2.5斤消耗 = 补10.5斤清水</p>
+    </div>
+    <div class="card">
+      <h3>放料比例</h3>
+      <p><strong>放料量 = 补水量 + 货重</strong></p>
+      <p style="margin-top:0.5rem;font-size:0.85rem;color:#8a7a6a">按这个总量计算盐、糖、鸡精等调料的用量</p>
+    </div>
+    <div class="card">
+      <h3>糖色三锅一循环</h3>
+      <p>每三锅重新补一次糖色。新汤糖色只加头一回，往后循环加。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 成品 ============ -->
+<section class="section">
+  <h2 class="section-title">成品特征</h2>
+  <p class="section-desc">一锅好的甜辣黑鸭，入口是甜，然后是辣，接着是咸，最后回麻。</p>
+  <div class="cards">
+    <div class="card">
+      <h3>甜</h3>
+      <p>糖色和麦芽糖带来的前调。入口先感受到的是甜，不是辣。</p>
+    </div>
+    <div class="card">
+      <h3>辣</h3>
+      <p>福建辣椒王的辣味慢慢上来，不是入口就辣，是后劲。</p>
+    </div>
+    <div class="card">
+      <h3>咸</h3>
+      <p>盐打底，只卤底味。越煮越咸，每锅都要算好盐量。</p>
+    </div>
+    <div class="card">
+      <h3>麻</h3>
+      <p>大红袍花椒的回麻。最后留在嘴里的感觉，不抢前调。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  甜辣黑鸭全套配方 · 交互式动画演示
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.from('.hero h1', {opacity:0, y:40, duration:1, ease:'power2.out'});
+gsap.from('.hero .sub', {opacity:0, y:20, duration:1, delay:0.3, ease:'power2.out'});
+gsap.from('.hero svg', {opacity:0, scale:0.85, duration:1, delay:0.5, ease:'back.out(1.7)'});
+
+gsap.to('.st1, .st2, .st3', {
+  y: -15, opacity: 0, duration: 2.5, repeat: -1, ease: 'power1.out',
+  stagger: 0.4
+});
+
+// Section reveals
+document.querySelectorAll('.section').forEach(section => {
+  gsap.from(section.querySelector('.section-title'), {
+    scrollTrigger: {trigger: section, start:'top 80%', toggleActions:'play none none reverse'},
+    opacity:0, y:30, duration:0.8, ease:'power2.out'
+  });
+  gsap.from(section.querySelector('.section-desc'), {
+    scrollTrigger: {trigger: section, start:'top 75%', toggleActions:'play none none reverse'},
+    opacity:0, y:20, duration:0.8, delay:0.15, ease:'power2.out'
+  });
+});
+
+// Timeline items
+document.querySelectorAll('.timeline-item').forEach((item, i) => {
+  gsap.from(item, {
+    scrollTrigger: {trigger: item, start:'top 85%', toggleActions:'play none none reverse'},
+    opacity:0, x:-20, duration:0.5, delay:i*0.15, ease:'power2.out'
+  });
+});
+
+// Table rows
+document.querySelectorAll('tbody tr').forEach((row, i) => {
+  gsap.from(row, {
+    scrollTrigger: {trigger: row, start:'top 90%', toggleActions:'play none none reverse'},
+    opacity:0, x:-15, duration:0.3, delay:i*0.08, ease:'power2.out'
+  });
+});
+
+// Flow chart nodes
+document.querySelectorAll('.flow-node').forEach((node, i) => {
+  ScrollTrigger.create({
+    trigger: node.closest('.section'),
+    start: 'top 70%',
+    onEnter: () => {
+      setTimeout(() => node.classList.add('active'), i * 200);
+    }
+  });
+});
+
+// Cards
+document.querySelectorAll('.card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: {trigger: card, start:'top 85%', toggleActions:'play none none reverse'},
+    opacity:0, y:20, duration:0.5, delay:i*0.1, ease:'power2.out'
+  });
+});
+</script>
+</body>
+</html>
