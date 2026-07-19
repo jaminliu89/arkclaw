@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自学卤鸭摆摊创业 - 交互式动画</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Notos Sans SC","PingFang SC","Microsoft YaHei",sans-serif;background:#f5f0ea;color:#2c2420;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(160deg,#1a3a1a 0%,#2a5a2a 40%,#3a7a3a 100%)}
+.hero h1{font-size:clamp(2rem,6vw,4rem);font-weight:700;color:#d0f0d0;letter-spacing:0.05em;margin-bottom:1rem}
+.hero .sub{font-size:clamp(1rem,2.5vw,1.5rem);color:#a0d0a0;font-weight:300;max-width:600px;line-height:1.6}
+.hero .scroll-hint{position:absolute;bottom:2rem;font-size:0.85rem;color:#80b080;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+.section{padding:4rem 1.5rem;max-width:1000px;margin:0 auto;min-height:80vh;display:flex;flex-direction:column;justify-content:center}
+.section-title{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:700;color:#3a281e;margin-bottom:0.75rem}
+.section-desc{font-size:1.1rem;color:#6b5a4a;line-height:1.7;margin-bottom:2.5rem;max-width:700px}
+.visual-container{width:100%;display:flex;justify-content:center;align-items:center;padding:1.5rem 0}
+.visual-container svg{width:100%;max-width:700px;height:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:2rem}
+.card{background:#fff;border-radius:12px;padding:1.75rem;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
+.card h3{font-size:1.1rem;font-weight:600;color:#3a281e;margin-bottom:0.5rem}
+.card p{font-size:0.95rem;color:#6b5a4a;line-height:1.6}
+.card .highlight{color:#c44528;font-weight:600}
+.card .green{color:#2a7a2a;font-weight:600}
+.story-block{background:#fff;border-radius:12px;padding:2rem;margin:1.5rem 0;border-left:4px solid #2a7a2a;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.story-block h4{font-size:1rem;color:#2a7a2a;margin-bottom:0.5rem}
+.story-block p{font-size:0.95rem;color:#6b5a4a;line-height:1.7}
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+.compare-item{background:#fff;border-radius:10px;padding:1.5rem;border:1px solid #e0d5c8}
+.compare-item h4{font-size:1rem;margin-bottom:0.5rem}
+.compare-item .num{font-size:2rem;font-weight:700}
+.compare-item .num.red{color:#c44528}
+.compare-item .num.green{color:#2a7a2a}
+.feedback-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0}
+.feedback-item{background:#fff;border-radius:10px;padding:1.25rem;text-align:center;border:1px solid #e0d5c8}
+.feedback-item .quote{font-size:0.9rem;color:#6b5a4a;font-style:italic;margin-bottom:0.75rem;line-height:1.5}
+.feedback-item .author{font-size:0.8rem;color:#8a7a6a}
+.feedback-item .emoji{font-size:1.5rem;margin-bottom:0.5rem}
+.tag{display:inline-block;padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;margin:0.15rem}
+.tag.green{background:#e0f0e0;color:#2a7a2a}
+.tag.red{background:#f0e0e0;color:#c44528}
+.tag.amber{background:#f0e8d0;color:#a07020}
+.lesson-list{list-style:none;padding:0}
+.lesson-list li{position:relative;padding:0.75rem 0 0.75rem 1.5rem;border-bottom:1px solid #f0e8e0;font-size:0.95rem;color:#3a281e;line-height:1.5}
+.lesson-list li::before{content:'';position:absolute;left:0;top:1.15rem;width:8px;height:8px;border-radius:50%;background:#2a7a2a}
+.lesson-list li:last-child{border-bottom:none}
+footer{text-align:center;padding:3rem 1.5rem;color:#8a7a6a;font-size:0.85rem;border-top:1px solid #e0d5c8}
+@media(max-width:600px){.compare-box{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h1>自学卤鸭摆摊创业</h1>
+  <p class="sub">学费四五千太贵，自己学。耗时4天，成功出摊</p>
+  <svg viewBox="0 0 400 300" style="max-width:400px;margin:2rem auto">
+    <!-- Stall sign -->
+    <rect x="100" y="30" width="200" height="50" rx="8" fill="#2a7a2a" stroke="#1a5a1a" stroke-width="2"/>
+    <text x="200" y="62" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">卤味小摊</text>
+    <!-- Pole -->
+    <rect x="195" y="80" width="10" height="120" fill="#8a7a6a"/>
+    <!-- Table -->
+    <rect x="60" y="200" width="280" height="15" rx="4" fill="#a08070" stroke="#8a7a6a" stroke-width="1.5"/>
+    <rect x="70" y="215" width="8" height="50" fill="#8a7a6a"/>
+    <rect x="320" y="215" width="8" height="50" fill="#8a7a6a"/>
+    <!-- Items on table -->
+    <rect x="90" y="175" width="50" height="25" rx="5" fill="#6a3a2a" opacity="0.8"/>
+    <rect x="155" y="180" width="50" height="20" rx="5" fill="#7a4a2a" opacity="0.8"/>
+    <rect x="220" y="178" width="50" height="22" rx="5" fill="#6a3a2a" opacity="0.8"/>
+    <rect x="285" y="182" width="40" height="18" rx="5" fill="#7a4a2a" opacity="0.8"/>
+    <!-- Steam -->
+    <path d="M115 170 Q120 155 115 140" fill="none" stroke="#a0d0a0" stroke-width="2" opacity="0.4" class="vst1"/>
+    <path d="M180 175 Q185 160 180 145" fill="none" stroke="#a0d0a0" stroke-width="2" opacity="0.4" class="vst2"/>
+    <path d="M245 173 Q250 158 245 143" fill="none" stroke="#a0d0a0" stroke-width="2" opacity="0.4" class="vst3"/>
+    <!-- Label -->
+    <text x="200" y="280" text-anchor="middle" font-size="13" fill="#a0d0a0">4天自学 · 摆摊创业</text>
+  </svg>
+  <div class="scroll-hint">向下滚动探索</div>
+</section>
+
+<!-- ============ 成本对比 ============ -->
+<section class="section">
+  <h2 class="section-title">成本对比</h2>
+  <p class="section-desc">外出学习 vs 自己学，差距有多大？</p>
+  <div class="compare-box">
+    <div class="compare-item">
+      <h4>外出学习</h4>
+      <div class="num red">4,000 - 5,000</div>
+      <p style="font-size:0.85rem;color:#8a7a6a;margin-top:0.5rem">元学费</p>
+    </div>
+    <div class="compare-item">
+      <h4>自己学</h4>
+      <div class="num green">材料费</div>
+      <p style="font-size:0.85rem;color:#8a7a6a;margin-top:0.5rem">远低于学费</p>
+    </div>
+  </div>
+  <div class="compare-box" style="margin-top:0.5rem">
+    <div class="compare-item">
+      <h4>耗时</h4>
+      <div class="num green">4天</div>
+      <p style="font-size:0.85rem;color:#8a7a6a;margin-top:0.5rem">从零到出成品</p>
+    </div>
+    <div class="compare-item">
+      <h4>结果</h4>
+      <div class="num green">成功</div>
+      <p style="font-size:0.85rem;color:#8a7a6a;margin-top:0.5rem">摆摊没问题</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 四天流程 ============ -->
+<section class="section">
+  <h2 class="section-title">四天实操流程</h2>
+  <p class="section-desc">和猴猴的配方流程一致，但这是自学者的视角——每一步都是自己摸索出来的。</p>
+  <div class="story-block">
+    <h4>Day 1 — 熬高汤 + 炒糖色 + 调卤汤</h4>
+    <p>40斤清水熬成25斤高汤。炒糖色（5斤白糖配25斤汤）。调好卤汤静置24小时。</p>
+  </div>
+  <div class="story-block">
+    <h4>Day 2 — 第一锅鸡架（去苦）</h4>
+    <p>25斤汤卤10斤鸡架，30分钟。仅上色不挂汁。捞出香料擦净桶壁，静置24小时。</p>
+  </div>
+  <div class="story-block">
+    <h4>Day 3 — 第二锅鸡架（增香）</h4>
+    <p>同样的10斤鸡架，但明显挂汁了。这次卤完的料全部倒掉，明天用新料。静置24小时。</p>
+  </div>
+  <div class="story-block">
+    <h4>Day 4 — 正式卤鸭货</h4>
+    <p>净汤剩17斤，补8斤水到25斤。按顺序下鸭脖→鸭头→鸭掌→鸭胗。浸泡20分钟出锅。</p>
+  </div>
+</section>
+
+<!-- ============ 关键调整 ============ -->
+<section class="section">
+  <h2 class="section-title">关键调整：辣椒加倍</h2>
+  <p class="section-desc">这是自学版本和教程最大的区别——辣椒量从80g加到200g。教程只是参考，口味自己试。</p>
+  <div class="visual-container">
+    <svg viewBox="0 0 600 220">
+      <!-- Tutorial amount -->
+      <g transform="translate(30,20)">
+        <rect x="0" y="0" width="250" height="170" rx="12" fill="#fff" stroke="#e0d5c8" stroke-width="1.5"/>
+        <text x="125" y="35" text-anchor="middle" font-size="15" font-weight="600" fill="#3a281e">教程写</text>
+        <text x="125" y="65" text-anchor="middle" font-size="28" font-weight="700" fill="#c44528">80g</text>
+        <text x="125" y="95" text-anchor="middle" font-size="13" fill="#6b5a4a">辣椒</text>
+        <rect x="40" y="110" width="170" height="8" rx="4" fill="#f0e0e0"/>
+        <rect x="40" y="110" width="50" height="8" rx="4" fill="#c44528"/>
+        <text x="125" y="145" text-anchor="middle" font-size="12" fill="#8a7a6a">辣度不够</text>
+      </g>
+      <!-- Arrow -->
+      <text x="295" y="100" text-anchor="middle" font-size="22" fill="#2a7a2a">→</text>
+      
+      <!-- Actual amount -->
+      <g transform="translate(320,20)">
+        <rect x="0" y="0" width="250" height="170" rx="12" fill="#fff" stroke="#2a7a2a" stroke-width="2"/>
+        <text x="125" y="35" text-anchor="middle" font-size="15" font-weight="600" fill="#3a281e">实操放</text>
+        <text x="125" y="65" text-anchor="middle" font-size="28" font-weight="700" fill="#2a7a2a">200g</text>
+        <text x="125" y="95" text-anchor="middle" font-size="13" fill="#6b5a4a">辣椒</text>
+        <rect x="40" y="110" width="170" height="8" rx="4" fill="#e0f0e0"/>
+        <rect x="40" y="110" width="170" height="8" rx="4" fill="#2a7a2a"/>
+        <text x="125" y="145" text-anchor="middle" font-size="12" fill="#2a7a2a" font-weight="600">2.5倍！</text>
+      </g>
+    </svg>
+  </div>
+  <div class="story-block" style="border-left-color:#c44528">
+    <h4>为什么加这么多？</h4>
+    <p>教程的辣椒量对普通人口味来说偏少。自学的好处就是可以按自己口味调整——不怕改，就怕不改。实操后试吃反馈：「甜→辣慢慢上来→回麻」的层次才对。</p>
+  </div>
+</section>
+
+<!-- ============ 试味反馈 ============ -->
+<section class="section">
+  <h2 class="section-title">试味反馈</h2>
+  <p class="section-desc">出锅后让身边朋友试吃，这是最真实的检验。摆摊能不能卖，群众说了算。</p>
+  
+  <div class="feedback-grid">
+    <div class="feedback-item">
+      <div class="emoji">👍</div>
+      <div class="quote">"行，可以。辣，甜，不咸。摆摊行。"</div>
+      <div class="author">— 朋友1</div>
+    </div>
+    <div class="feedback-item">
+      <div class="emoji">🤔</div>
+      <div class="quote">"味稍微有点淡，比外面卖的稍微差一点"</div>
+      <div class="author">— 朋友2</div>
+    </div>
+    <div class="feedback-item">
+      <div class="emoji">😋</div>
+      <div class="quote">"一看就有食欲。辣慢慢上来。麻不用再加。"</div>
+      <div class="author">— 朋友3</div>
+    </div>
+    <div class="feedback-item">
+      <div class="emoji">🌶️</div>
+      <div class="quote">"辣劲上来了。辣度要不要再降点？"</div>
+      <div class="author">— 朋友4</div>
+    </div>
+  </div>
+  
+  <div class="cards">
+    <div class="card">
+      <h3>综合结论</h3>
+      <p>口味层次：甜 → 辣 → 咸 → 回麻 ✅</p>
+      <p style="margin-top:0.5rem">麻度合适，不用再加</p>
+      <p>咸度有人觉得正好，有人觉得略淡</p>
+      <p>辣度可考虑适当降低（照顾不太能吃辣的顾客）</p>
+      <p style="margin-top:0.75rem;font-weight:600;color:#2a7a2a">整体：摆摊没问题</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 学到什么 ============ -->
+<section class="section">
+  <h2 class="section-title">学到什么</h2>
+  <p class="section-desc">自学摆摊的四天，不只是学会了一锅卤水，更重要的是这几件事。</p>
+  <ul class="lesson-list">
+    <li><strong>自己学完全可以做出来</strong> — 不需要花四五千学费，网上素材足够</li>
+    <li><strong>新汤变老汤需要两锅鸡架打底</strong> — 去苦 + 增香，缺一不可</li>
+    <li><strong>辣度按自己口味调整</strong> — 教程偏少，实操要加倍。不怕改，就怕不改</li>
+    <li><strong>试味反馈很重要</strong> — 自己觉得好吃不算，朋友说了才算。根据反馈微调再出摊</li>
+    <li><strong>摆摊是门生意，不是做给自己吃的</strong> — 要考虑普通顾客的口味，不是自己觉得好就行</li>
+  </ul>
+</section>
+
+<!-- ============ 和猴猴配方的区别 ============ -->
+<section class="section">
+  <h2 class="section-title">和猴猴配方的区别</h2>
+  <p class="section-desc">同一个配方体系，两种视角。猴猴是完整教学，这个是自学者的实操记录。</p>
+  <div class="compare-box">
+    <div class="compare-item">
+      <h4>猴猴配方</h4>
+      <p style="font-size:0.85rem;color:#6b5a4a;line-height:1.6">
+        完整专业配方<br>
+        补汤公式精确到克<br>
+        糖色三锅一循环<br>
+        时间表精确到分钟<br>
+        香料循环使用3次
+      </p>
+    </div>
+    <div class="compare-item">
+      <h4>自学版</h4>
+      <p style="font-size:0.85rem;color:#6b5a4a;line-height:1.6">
+        从0开始的实操记录<br>
+        辣椒量翻倍（80g→200g）<br>
+        有真实试味反馈<br>
+        含成本对比（学费vs自学）<br>
+        更接地气的摆摊视角
+      </p>
+    </div>
+  </div>
+  <div class="story-block">
+    <h4>两者结合使用效果最佳</h4>
+    <p>先用猴猴的完整配方搭建体系（补汤公式、时间表、糖色循环），再参考自学版的试味反馈调整口味（尤其是辣椒和咸度）。一个是骨架，一个是血肉。</p>
+  </div>
+</section>
+
+<footer>
+  自学卤鸭摆摊创业 · 交互式动画演示
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.from('.hero h1', {opacity:0, y:40, duration:1, ease:'power2.out'});
+gsap.from('.hero .sub', {opacity:0, y:20, duration:1, delay:0.3, ease:'power2.out'});
+gsap.from('.hero svg', {opacity:0, scale:0.85, duration:1, delay:0.5, ease:'back.out(1.7)'});
+
+gsap.to('.vst1, .vst2, .vst3', {
+  y: -15, opacity: 0, duration: 2.5, repeat: -1, ease: 'power1.out',
+  stagger: 0.4
+});
+
+// Section reveals
+document.querySelectorAll('.section').forEach(section => {
+  gsap.from(section.querySelector('.section-title'), {
+    scrollTrigger: {trigger: section, start:'top 80%', toggleActions:'play none none reverse'},
+    opacity:0, y:30, duration:0.8, ease:'power2.out'
+  });
+  gsap.from(section.querySelector('.section-desc'), {
+    scrollTrigger: {trigger: section, start:'top 75%', toggleActions:'play none none reverse'},
+    opacity:0, y:20, duration:0.8, delay:0.15, ease:'power2.out'
+  });
+});
+
+// Story blocks
+document.querySelectorAll('.story-block').forEach((block, i) => {
+  gsap.from(block, {
+    scrollTrigger: {trigger: block, start:'top 85%', toggleActions:'play none none reverse'},
+    opacity:0, x:-15, duration:0.5, delay:i*0.12, ease:'power2.out'
+  });
+});
+
+// Compare items
+document.querySelectorAll('.compare-item').forEach((item, i) => {
+  gsap.from(item, {
+    scrollTrigger: {trigger: item, start:'top 85%', toggleActions:'play none none reverse'},
+    opacity:0, y:15, duration:0.5, delay:i*0.1, ease:'power2.out'
+  });
+});
+
+// Feedback items
+document.querySelectorAll('.feedback-item').forEach((item, i) => {
+  gsap.from(item, {
+    scrollTrigger: {trigger: item, start:'top 85%', toggleActions:'play none none reverse'},
+    opacity:0, scale:0.95, duration:0.4, delay:i*0.1, ease:'power2.out'
+  });
+});
+
+// Lesson list items
+document.querySelectorAll('.lesson-list li').forEach((item, i) => {
+  gsap.from(item, {
+    scrollTrigger: {trigger: item, start:'top 90%', toggleActions:'play none none reverse'},
+    opacity:0, x:-10, duration:0.35, delay:i*0.08, ease:'power2.out'
+  });
+});
+
+// Cards
+document.querySelectorAll('.card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: {trigger: card, start:'top 85%', toggleActions:'play none none reverse'},
+    opacity:0, y:20, duration:0.5, delay:i*0.1, ease:'power2.out'
+  });
+});
+</script>
+</body>
+</html>
