@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三环选题系统 · 旋转矩阵</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;background:#0d0d1a;color:#e0d8d0;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;background:radial-gradient(ellipse at center,#1a1a3a 0%,#0d0d1a 70%)}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;background:linear-gradient(135deg,#f0d8c0,#ff8a5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
+.hero .sub{font-size:1.1rem;color:#8a7a6a;max-width:500px;line-height:1.6;margin-bottom:2rem}
+.hero .input-area{display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center}
+.hero input{padding:0.85rem 1.5rem;border-radius:50px;border:1px solid #3a2a2a;background:#1a1a2a;color:#e0d8d0;font-size:1rem;width:280px;outline:none;transition:border-color 0.3s}
+.hero input:focus{border-color:#ff8a5c}
+.hero button{padding:0.85rem 2rem;border-radius:50px;border:none;background:linear-gradient(135deg,#ff6a3c,#ff8a5c);color:#fff;font-size:1rem;font-weight:600;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
+.hero button:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(255,138,92,0.3)}
+.hero button:active{transform:scale(0.98)}
+#wheel-section{display:none;padding:2rem 1.5rem;max-width:1100px;margin:0 auto}
+.wheel-header{text-align:center;margin-bottom:2rem}
+.wheel-header h2{font-size:1.8rem;color:#f0d8c0;margin-bottom:0.5rem}
+.wheel-header p{color:#8a7a6a;font-size:1rem}
+.wheel-container{position:relative;width:100%;max-width:700px;margin:0 auto;aspect-ratio:1}
+.wheel-container svg{width:100%;height:100%}
+.controls{display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+.controls button{padding:0.75rem 2rem;border-radius:50px;border:none;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+.btn-spin{background:linear-gradient(135deg,#ff6a3c,#ff8a5c);color:#fff}
+.btn-spin:hover{box-shadow:0 4px 20px rgba(255,138,92,0.3);transform:scale(1.05)}
+.btn-auto{background:linear-gradient(135deg,#3a6a3a,#5a9a5a);color:#fff}
+.btn-auto:hover{box-shadow:0 4px 20px rgba(90,154,90,0.3);transform:scale(1.05)}
+.btn-export{background:linear-gradient(135deg,#3a3a6a,#5a5a9a);color:#fff}
+.btn-export:hover{box-shadow:0 4px 20px rgba(90,90,154,0.3);transform:scale(1.05)}
+
+.results{display:none;padding:2rem 1.5rem;max-width:1100px;margin:0 auto}
+.results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.results-header h2{font-size:1.6rem;color:#f0d8c0}
+.results-header .count{color:#8a7a6a;font-size:0.9rem}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
+.topic-card{background:#1a1a2a;border-radius:12px;padding:1.25rem;border:1px solid #2a2a3a;transition:all 0.2s;cursor:default}
+.topic-card:hover{border-color:#ff8a5c;box-shadow:0 0 20px rgba(255,138,92,0.08)}
+.topic-card .tag{display:inline-block;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;font-weight:600;margin-bottom:0.5rem}
+.tag-flow{background:#ff6a3c20;color:#ff8a5c;border:1px solid #ff6a3c40}
+.tag-convert{background:#3a6a3a20;color:#5a9a5a;border:1px solid #3a6a3a40}
+.tag-hook{background:#3a3a6a20;color:#7a7afa;border:1px solid #3a3a6a40}
+.topic-card .title{font-size:1rem;font-weight:600;color:#f0d8c0;margin-bottom:0.5rem;line-height:1.4}
+.topic-card .meta{font-size:0.8rem;color:#6a5a4a;margin-bottom:0.75rem}
+.topic-card .hook{font-size:0.85rem;color:#7a7afa;padding:0.5rem 0.75rem;background:#1a1a3a;border-radius:8px;border-left:3px solid #5a5a9a;line-height:1.4;margin-bottom:0.5rem}
+.topic-card .hook::before{content:'钩子: ';color:#5a5a9a;font-weight:600}
+.topic-card .reason{font-size:0.8rem;color:#6a5a4a;line-height:1.4}
+.topic-card .kw{display:inline-block;padding:0.1rem 0.4rem;background:#2a2a3a;border-radius:3px;font-size:0.7rem;color:#8a7a6a;margin:0.1rem}
+
+.strategy-panel{display:none;padding:2rem 1.5rem;max-width:1100px;margin:0 auto}
+.strategy-panel h2{font-size:1.6rem;color:#f0d8c0;margin-bottom:1.5rem;text-align:center}
+.strategy-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.strategy-card{background:#1a1a2a;border-radius:10px;padding:1.25rem;border:1px solid #2a2a3a}
+.strategy-card h3{font-size:1rem;color:#f0d8c0;margin-bottom:0.5rem}
+.strategy-card .desc{font-size:0.85rem;color:#8a7a6a;line-height:1.5;margin-bottom:0.75rem}
+.strategy-card .methods{font-size:0.8rem;color:#6a5a4a}
+.strategy-card .methods li{margin-bottom:0.25rem;padding-left:0.5rem}
+
+.hook-panel{display:none;padding:2rem 1.5rem;max-width:1100px;margin:0 auto}
+.hook-panel h2{font-size:1.6rem;color:#f0d8c0;margin-bottom:1rem;text-align:center}
+.hook-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.hook-card{background:#1a1a2a;border-radius:10px;padding:1.25rem;border:1px solid #2a2a3a}
+.hook-card .num{display:inline-block;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ff6a3c,#ff8a5c);color:#fff;text-align:center;line-height:28px;font-size:0.8rem;font-weight:700;margin-bottom:0.5rem}
+.hook-card .name{font-size:0.9rem;color:#f0d8c0;font-weight:600;margin-bottom:0.3rem}
+.hook-card .formula{font-size:0.8rem;color:#8a7a6a;font-family:monospace;margin-bottom:0.3rem}
+.hook-card .example{font-size:0.8rem;color:#5a9a5a;line-height:1.4}
+
+footer{text-align:center;padding:2rem;color:#4a3a3a;font-size:0.8rem}
+
+/* Spin indicator */
+.spin-count{text-align:center;color:#6a5a4a;font-size:0.9rem;margin-top:0.5rem}
+
+@media(max-width:600px){
+  .topic-grid,.strategy-list,.hook-grid{grid-template-columns:1fr}
+  .hero input{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="hero">
+  <h1>三环选题系统</h1>
+  <p class="sub">输入你的行业，三环旋转匹配产品 × 人群 × 需求，批量生成爆款选题</p>
+  <div class="input-area">
+    <input type="text" id="industry-input" placeholder="输入行业，例如：婚礼、门窗、餐饮..." autocomplete="off">
+    <button onclick="generateTopics()">生成选题</button>
+  </div>
+</section>
+
+<!-- ==================== WHEEL SECTION ==================== -->
+<section id="wheel-section">
+  <div class="wheel-header">
+    <h2 id="wheel-title">三环旋转匹配中</h2>
+    <p id="wheel-sub">内圈：产品层 · 中圈：用户层 · 外圈：需求层</p>
+  </div>
+  <div class="wheel-container" id="wheel-container">
+    <svg viewBox="0 0 600 600" id="wheel-svg">
+      <!-- Outer ring segments -->
+      <g id="outer-ring"></g>
+      <!-- Middle ring segments -->
+      <g id="middle-ring"></g>
+      <!-- Inner ring segments -->
+      <g id="inner-ring"></g>
+      <!-- Center text -->
+      <text x="300" y="295" text-anchor="middle" font-size="14" fill="#8a7a6a" id="center-text-1"></text>
+      <text x="300" y="315" text-anchor="middle" font-size="14" fill="#8a7a6a" id="center-text-2"></text>
+      <!-- Pointer triangle at top -->
+      <polygon points="290,10 310,10 300,30" fill="#ff8a5c"/>
+    </svg>
+  </div>
+  <div class="controls">
+    <button class="btn-spin" onclick="spinWheel()">旋转匹配</button>
+    <button class="btn-auto" onclick="batchSpin(10)">批量生成10条</button>
+    <button class="btn-auto" onclick="batchSpin(100)">批量生成100条</button>
+    <button class="btn-export" onclick="exportTopics()">导出全部</button>
+  </div>
+  <div class="spin-count" id="spin-count"></div>
+</section>
+
+<!-- ==================== RESULTS ==================== -->
+<section class="results" id="results">
+  <div class="results-header">
+    <div>
+      <h2>生成选题</h2>
+      <span class="count" id="topic-count">共 0 条</span>
+    </div>
+    <div>
+      <button class="btn-export" onclick="showStrategies()" style="margin-right:0.5rem">策略库</button>
+      <button class="btn-export" onclick="showHooks()">钩子库</button>
+    </div>
+  </div>
+  <div class="topic-grid" id="topic-grid"></div>
+</section>
+
+<!-- ==================== STRATEGY PANEL ==================== -->
+<section class="strategy-panel" id="strategy-panel">
+  <h2>策略卡库</h2>
+  <p style="text-align:center;color:#8a7a6a;margin-bottom:1.5rem;font-size:0.9rem">所有方法论以策略卡形式存储，系统按需调用</p>
+  <div class="strategy-list" id="strategy-list"></div>
+  <div style="text-align:center;margin-top:1.5rem">
+    <button class="btn-spin" onclick="showResults()">返回选题</button>
+  </div>
+</section>
+
+<!-- ==================== HOOK PANEL ==================== -->
+<section class="hook-panel" id="hook-panel">
+  <h2>爆款开头钩子库</h2>
+  <p style="text-align:center;color:#8a7a6a;margin-bottom:1.5rem;font-size:0.9rem">11大爆款开头模板，每条选题自动匹配最合适的钩子</p>
+  <div class="hook-grid" id="hook-grid"></div>
+  <div style="text-align:center;margin-top:1.5rem">
+    <button class="btn-spin" onclick="showResults()">返回选题</button>
+  </div>
+</section>
+
+<footer>三环选题系统 · 产品 × 人群 × 需求 = 爆款</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ============================================================
+// DATA: Strategy Cards
+// ============================================================
+const STRATEGY_CARDS = [
+  {
+    id:'total-total', name:'总分总结构', desc:'凤头(钩子)→猪肚(论证)→豹尾(升华)。口播稿的核心骨架。',
+    methods:['凤头：前3秒抓人','猪肚：分点论证+生活化细节','豹尾：升华+引导互动'],
+    trigger:'所有口播内容', type:'framework'
+  },
+  {
+    id:'qa-loop', name:'问答循环法', desc:'写稿卡住时，站在观众视角自问自答，持续循环直到讲透彻。',
+    methods:['通读已写内容','预判观众疑问','自问自答循环','直到内容完整饱满'],
+    trigger:'写稿卡壳/内容太浅', type:'method'
+  },
+  {
+    id:'time-narrative', name:'时间叙事开篇', desc:'以具体年份开头，自带画面感和故事感。实测285万/1800万播放。',
+    methods:['「XXXX年，我...」回忆型','「XXXX年还没人知道...现在」反差型','「一切要从XXXX年说起」起点型'],
+    trigger:'需要开篇钩子', type:'hook'
+  },
+  {
+    id:'topic-select', name:'选题确定法', desc:'爆款不是写出来的，是筛选出来的。用工具找低粉爆款。',
+    methods:['热点宝：新手蹭热点','蝉妈妈：筛选低粉爆款','今日头条：自建素材号(2小时养成)'],
+    trigger:'不知道拍什么', type:'method'
+  },
+  {
+    id:'hook-borrow', name:'抄开头法', desc:'开头10秒决定生死，不用自己创作，直接照搬爆款开头到句号。',
+    methods:['一字不改抄到句号','保证开篇是完整独立观点','不要自作修改'],
+    trigger:'不知道开头怎么写', type:'hook'
+  },
+  {
+    id:'view-extract', name:'观点提取法', desc:'一条视频5个观点最合适，从多渠道提取，规避查重。',
+    methods:['对标视频取用<40%','同赛道额外摘取1-2个','评论区高赞评论转化'],
+    trigger:'需要多个观点支撑', type:'method'
+  },
+  {
+    id:'oral-fill', name:'口语化填充法', desc:'边口述边打字，文稿是自己口语的文字总结，不要书面转朗读。',
+    methods:['不要纠结文笔','严禁直接复制','不要聘用专职文案','每15秒设情绪钩子'],
+    trigger:'写稿太书面/不自然', type:'method'
+  },
+  {
+    id:'mirror-train', name:'镜子训练法', desc:'对着镜子独白1小时起步，先克服心理障碍再对手机录。',
+    methods:['对着镜子长时间独白','单次练习1小时起步','先镜子过关再录视频'],
+    trigger:'镜头表现力差/不自然', type:'skill'
+  },
+  {
+    id:'dialect-hook', name:'方言共鸣开篇', desc:'本地生意用方言钩子，前两句方言拉停留，第三段起软广。',
+    methods:['第一句方言+本地+倒闭=1.5秒停留','第二句痛点共鸣','第三段起讲选址+软广转化'],
+    trigger:'本地实体店/同城内容', type:'hook'
+  },
+  {
+    id:'three-ring', name:'三环选题法', desc:'产品层×用户层×需求痛点层，三层交叉生成海量选题。',
+    methods:['内圈：场馆硬件+专业技术','中圈：人群+场馆渠道','外圈：正向诉求+负面痛点'],
+    trigger:'需要批量生成选题', type:'framework'
+  },
+  {
+    id:'five-topic-types', name:'5大选题类型', desc:'基于三层关键词搭配，覆盖不同流量逻辑。',
+    methods:['对比类：A vs B','痛点解决类：怎么改善','科普干货类：完整教学','门店商业类：值不值','决策答疑类：要不要'],
+    trigger:'选题形式单一', type:'framework'
+  },
+  {
+    id:'filter-standard', name:'选题筛选标准', desc:'批量产出后优先筛选高价值内容。',
+    methods:['流量向：涨粉为主','转化向：引导到店','优先转化向内容兼顾变现'],
+    trigger:'选题太多不知道怎么选', type:'method'
+  },
+  {
+    id:'hook-11', name:'11大爆款开头模板', desc:'经过大量数据验证的爆款开头公式，直接套用提升完播率。',
+    methods:['认知颠覆型/结果前置型/方法揭秘型','悬念制造型/互动追问型/痛点共鸣型','价值承诺型/稀缺引导型/双重好处型','新手友好型/场景代入型'],
+    trigger:'需要开篇钩子/完播率低', type:'hook'
+  },
+  {
+    id:'pin-feng', name:'拼缝资源撮合法', desc:'发现供需裂缝→掌握两端信息→设计撮合方案→落地执行→复制放大。',
+    methods:['找资金链裂缝/信息裂缝','甲方有什么+为什么出手','乙方需要什么+愿意出多少','设计三方共赢方案'],
+    trigger:'资源撮合/中间人模式', type:'business'
+  },
+  {
+    id:'travel-money', name:'边旅行边赚钱法', desc:'前期起步赚第一桶金→拓展多元增收→转型自媒体→出行保障→长期规划。',
+    methods:['选特色货源+差异化','线下摆摊+门票差价','线上开店+民宿+特产贸易+跨境','房车改造移动办公→自媒体收益'],
+    trigger:'旅行创业/自由职业', type:'business'
+  },
+  {
+    id:'wang-bao-transform', name:'网暴变现方法论', desc:'草船借箭——借喷子的流量，为自己所用。争议=精准流量入口。',
+    methods:['接广告精准匹配骂你的人群','黄金3秒筛选喷子','置顶评论吸引火力','3天后删评干净收场','借势展示才能→植入广告→感谢闭环'],
+    trigger:'遭遇网暴/争议话题', type:'business'
+  }
+];
+
+// ============================================================
+// HOOK TEMPLATES
+// ============================================================
+const HOOK_TEMPLATES = [
+  { name:'认知颠覆型', formula:'今天我也干一件不要脸的事儿，让你们看看【行业】是怎么【反向操作】的', example:'今天我也干一件不要脸的事儿，让你们看看婚礼策划是怎么把成本翻三倍的' },
+  { name:'结果前置型', formula:'我是怎么做到【具体结果】的', example:'我是怎么做到一场婚礼赚5万的' },
+  { name:'方法揭秘型', formula:'我最近发现几个【行业】【动作】特别好用的方法', example:'我最近发现几个门窗选购特别好用的参数' },
+  { name:'悬念制造型', formula:'我最近发现了一个怪事儿，【反常现象】？', example:'我最近发现了一个怪事儿，越贵的婚礼越没人来？' },
+  { name:'互动追问型', formula:'你刚才说啥？你再说一遍呗', example:'你刚才说啥？谁说实体店干不下去了？' },
+  { name:'痛点共鸣型', formula:'说几个【行业】的坑，先看看你踩过哪个', example:'说几个婚礼布置的坑，先看看你踩过哪个' },
+  { name:'价值承诺型', formula:'【时间】之后你将会有【具体能力】', example:'三分钟之后你将会有挑选靠谱婚庆的能力' },
+  { name:'稀缺引导型', formula:'我只教一遍，注意听', example:'我只教一遍，注意听，这条能帮你省1万块' },
+  { name:'双重好处型', formula:'学会这个【方法】，你不仅能【好处1】，还能【好处2】', example:'学会这个谈单方法，你不仅能多接单，还能提高客单价' },
+  { name:'新手友好型', formula:'分享给大家一个【行业】【方法】，新手也能照抄', example:'分享给大家一个婚礼策划的方法，新手也能照抄' },
+  { name:'场景代入型', formula:'刚干完【事情】，家人们，我现在特别想跟大家分享一个事儿', example:'刚谈完一个客户，家人们，我现在特别想跟大家分享一个事儿' }
+];
+
+// ============================================================
+// DATA: Industry Keywords (auto-expandable)
+// ============================================================
+const INDUSTRY_DATA = {
+  default: {
+    inner: ['产品','服务','技术','品质','价格','售后','工艺','材料','设计','方案'],
+    middle: ['年轻人','中年人','女性','男性','家庭','企业','新手','老手','高端客户','大众客户'],
+    outer: ['省钱','省时','效果好','有面子','安全','耐用','方便','专业','省心','口碑']
+  },
+  wedding: {
+    inner: ['婚礼策划','场地布置','婚纱摄影','司仪团队','化妆造型','婚车租赁','婚礼主持','甜品台','灯光音响','婚礼流程'],
+    middle: ['新人','新娘','新郎','双方父母','伴郎伴娘','宾客','备婚女生','已婚人群','高端客户','预算有限'],
+    outer: ['预算控制','风格选择','避坑指南','流程安排','效果保障','省心省力','个性定制','性价比','仪式感','不留遗憾']
+  },
+  door_window: {
+    inner: ['断桥铝','系统窗','推拉门','平开窗','阳光房','金刚网','中空玻璃','型材','五金配件','密封条'],
+    middle: ['装修业主','新房业主','老房翻新','别墅业主','项目经理','设计师','包工头','开发商','批发商','零售客户'],
+    outer: ['隔音','隔热','防风','防盗','省钱','耐用','美观','密封','售后','性价比']
+  },
+  catering: {
+    inner: ['菜品研发','厨房管理','选址','菜单设计','供应链','服务流程','装修风格','品牌定位','外卖运营','成本控制'],
+    middle: ['餐饮创业者','餐厅老板','店长','厨师','服务员','加盟商','美食爱好者','上班族','家庭','年轻人'],
+    outer: ['盈利','获客','降本','增效','口碑','复购','标准化','差异化','连锁','品牌']
+  },
+  photography: {
+    inner: ['人像摄影','风光摄影','手机摄影','相机选择','后期修图','构图技巧','光线运用','摄影器材','婚纱摄影','短视频拍摄'],
+    middle: ['摄影爱好者','新手摄影师','专业摄影师','宝妈','学生','旅行者','自媒体创作者','模特','婚庆从业者','摄影发烧友'],
+    outer: ['出片','提升技术','省器材钱','接单变现','审美提升','效率提高','少走弯路','拍出高级感','客户满意','创作灵感']
+  }
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let currentIndustry = 'default';
+let currentTopics = [];
+let wheelAngle = { inner:0, middle:0, outer:0 };
+
+// ============================================================
+// CORE: Topic Generation Engine
+// ============================================================
+function generateTopic(industry) {
+  const data = INDUSTRY_DATA[industry] || INDUSTRY_DATA.default;
+  const kw1 = data.inner[Math.floor(Math.random() * data.inner.length)];
+  const kw2 = data.middle[Math.floor(Math.random() * data.middle.length)];
+  const kw3 = data.outer[Math.floor(Math.random() * data.outer.length)];
+  
+  // Find matching strategy card
+  const relevantStrategies = STRATEGY_CARDS.filter(s => 
+    s.methods.some(m => m.includes(kw1) || m.includes(kw2) || m.includes(kw3)) ||
+    s.trigger.includes(industry)
+  );
+  
+  // Pick a hook template
+  const hook = HOOK_TEMPLATES[Math.floor(Math.random() * HOOK_TEMPLATES.length)];
+  const hookText = hook.formula
+    .replace('【行业】', industry === 'default' ? '' : (INDUSTRY_DATA[industry] ? '' : ''))
+    .replace('【反向操作】', '把成本翻倍')
+    .replace('【具体结果】', `靠${kw1}月入翻倍`)
+    .replace('【行业】', industry === 'default' ? '这个' : '')
+    .replace('【动作】', '')
+    .replace('【反常现象】', `${kw1}越贵${kw2}越不买`)
+    .replace('【行业】', '')
+    .replace('【时间】', '两分钟')
+    .replace('【具体能力】', `掌握${kw1}核心方法`)
+    .replace('【方法】', `${kw1}的${kw3}方法`)
+    .replace('【好处1】', `${kw3}")
+    .replace('【好处2】`, `提升${kw1}效果`)
+    .replace('【行业】', '')
+    .replace('【方法】', '')
+    .replace('【事情】', `研究完${kw1}`);
+  
+  // Determine if flow or convert
+  const isConvert = Math.random() > 0.6;
+  const tag = isConvert ? '转化向' : '流量向';
+  const tagClass = isConvert ? 'tag-convert' : 'tag-flow';
+  
+  // Build title
+  const titlePatterns = [
+    `${kw1}怎么做才能让${kw2}满意？`,
+    `${kw2}最怕的${kw1}${kw3}方法`,
+    `${kw1}和${kw3}，${kw2}该怎么选？`,
+    `${kw2}必看：${kw1}${kw3}全攻略`,
+    `揭秘${kw1}行业${kw3}内幕`,
+    `${kw1}的${kw3}套路，${kw2}千万别踩坑`,
+    `${kw2}做${kw1}，${kw3}才是关键`,
+    `为什么${kw2}都选${kw1}？因为${kw3}`,
+    `${kw1}不${kw3}，等于白做`,
+    `3个${kw1}的${kw3}技巧，${kw2}照着做就行`
+  ];
+  const title = titlePatterns[Math.floor(Math.random() * titlePatterns.length)];
+  
+  // Reason
+  const reasons = [
+    `关键词"${kw1}"直击核心需求，"${kw2}"精准锁定人群`,
+    `"${kw3}"是高频搜索词，配合"${kw1}"搜索量翻倍`,
+    `"${kw2}"+"${kw1}"组合覆盖精准受众，避坑属性拉满`,
+    `对比类内容天生高互动，"${kw1}vs${kw3}"引发讨论`,
+    `揭秘型标题打开率最高，"${kw3}内幕"是流量密码`
+  ];
+  const reason = reasons[Math.floor(Math.random() * reasons.length)];
+  
+  return {
+    title,
+    hook: hookText,
+    type: hook.name,
+    tag,
+    tagClass,
+    keywords: [kw1, kw2, kw3],
+    reason,
+    strategy: relevantStrategies.length > 0 ? relevantStrategies[0].name : null
+  };
+}
+
+// ============================================================
+// WHEEL RENDERING
+// ============================================================
+function renderWheel() {
+  const data = INDUSTRY_DATA[currentIndustry] || INDUSTRY_DATA.default;
+  
+  const outerEl = document.getElementById('outer-ring');
+  const middleEl = document.getElementById('middle-ring');
+  const innerEl = document.getElementById('inner-ring');
+  
+  outerEl.innerHTML = '';
+  middleEl.innerHTML = '';
+  innerEl.innerHTML = '';
+  
+  const cx = 300, cy = 300;
+  
+  // Create ring segments
+  function createRing(el, items, radius, innerRadius) {
+    const angleStep = (2 * Math.PI) / items.length;
+    items.forEach((item, i) => {
+      const startAngle = i * angleStep - Math.PI/2;
+      const endAngle = (i + 1) * angleStep - Math.PI/2;
+      
+      const x1 = cx + innerRadius * Math.cos(startAngle);
+      const y1 = cy + innerRadius * Math.sin(startAngle);
+      const x2 = cx + radius * Math.cos(startAngle);
+      const y2 = cy + radius * Math.sin(startAngle);
+      const x3 = cx + radius * Math.cos(endAngle);
+      const y3 = cy + radius * Math.sin(endAngle);
+      const x4 = cx + innerRadius * Math.cos(endAngle);
+      const y4 = cy + innerRadius * Math.sin(endAngle);
+      
+      const largeArc = angleStep > Math.PI ? 1 : 0;
+      const d = `M${x1},${y1} L${x2},${y2} A${radius},${radius} 0 ${largeArc},1 ${x3},${y3} L${x4},${y4} A${innerRadius},${innerRadius} 0 ${largeArc},0 ${x1},${y1} Z`;
+      
+      const colors = ['#ff6a3c','#ff8a5c','#ffaa5c','#e85a3a','#d44a2a'];
+      const color = colors[i % colors.length];
+      
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('fill', color);
+      path.setAttribute('opacity', '0.15');
+      path.setAttribute('stroke', color);
+      path.setAttribute('stroke-width', '1');
+      el.appendChild(path);
+      
+      // Text
+      const midAngle = startAngle + angleStep/2;
+      const textR = (radius + innerRadius) / 2;
+      const tx = cx + textR * Math.cos(midAngle);
+      const ty = cy + textR * Math.sin(midAngle);
+      
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', tx);
+      text.setAttribute('y', ty);
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'middle');
+      text.setAttribute('font-size', item.length > 4 ? '9' : '11');
+      text.setAttribute('fill', '#e0d8d0');
+      text.setAttribute('transform', `rotate(${midAngle * 180/Math.PI + 90}, ${tx}, ${ty})`);
+      text.textContent = item;
+      el.appendChild(text);
+    });
+  }
+  
+  createRing(outerEl, data.outer, 270, 190);
+  createRing(middleEl, data.middle, 175, 110);
+  createRing(innerEl, data.inner, 95, 40);
+  
+  // Center text
+  document.getElementById('center-text-1').textContent = data.inner[0];
+  document.getElementById('center-text-2').textContent = data.middle[0];
+}
+
+// ============================================================
+// WHEEL SPIN
+// ============================================================
+function spinWheel() {
+  const data = INDUSTRY_DATA[currentIndustry] || INDUSTRY_DATA.default;
+  
+  const outerEl = document.getElementById('outer-ring');
+  const middleEl = document.getElementById('middle-ring');
+  const innerEl = document.getElementById('inner-ring');
+  
+  const randAngle = () => 360 * (3 + Math.random() * 5);
+  
+  gsap.to(innerEl, {
+    rotation: `+=${randAngle()}`,
+    transformOrigin: '300px 300px',
+    duration: 2,
+    ease: 'power4.out',
+    onComplete: () => {
+      const idx = Math.floor(Math.random() * data.inner.length);
+      document.getElementById('center-text-1').textContent = data.inner[idx];
+    }
+  });
+  
+  gsap.to(middleEl, {
+    rotation: `+=${randAngle() * 0.8}`,
+    transformOrigin: '300px 300px',
+    duration: 2.5,
+    ease: 'power4.out',
+    onComplete: () => {
+      const idx = Math.floor(Math.random() * data.middle.length);
+      document.getElementById('center-text-2').textContent = data.middle[idx];
+    }
+  });
+  
+  gsap.to(outerEl, {
+    rotation: `+=${randAngle() * 0.6}`,
+    transformOrigin: '300px 300px',
+    duration: 3,
+    ease: 'power4.out'
+  });
+  
+  // Generate one topic after spin
+  setTimeout(() => {
+    const topic = generateTopic(currentIndustry);
+    currentTopics.unshift(topic);
+    renderTopics();
+  }, 3100);
+}
+
+// ============================================================
+// BATCH GENERATE
+// ============================================================
+function batchSpin(count) {
+  const data = INDUSTRY_DATA[currentIndustry] || INDUSTRY_DATA.default;
+  const newTopics = [];
+  for (let i = 0; i < count; i++) {
+    newTopics.push(generateTopic(currentIndustry));
+  }
+  currentTopics = [...newTopics, ...currentTopics];
+  renderTopics();
+  document.getElementById('spin-count').textContent = `已生成 ${currentTopics.length} 条选题`;
+  
+  // Quick visual flash
+  gsap.to('#wheel-container', {
+    scale: 0.98, duration: 0.1, yoyo: true, repeat: 1
+  });
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderTopics() {
+  const grid = document.getElementById('topic-grid');
+  const count = document.getElementById('topic-count');
+  
+  if (currentTopics.length === 0) {
+    grid.innerHTML = '<div style="text-align:center;color:#6a5a4a;padding:3rem">点击"旋转匹配"或"批量生成"开始</div>';
+    count.textContent = '共 0 条';
+    return;
+  }
+  
+  count.textContent = `共 ${currentTopics.length} 条`;
+  
+  grid.innerHTML = currentTopics.map(t => `
+    <div class="topic-card">
+      <div class="tag ${t.tagClass}">${t.tag}</div>
+      <div class="title">${t.title}</div>
+      <div class="meta">关键词：${t.keywords.map(k => `<span class="kw">${k}</span>`).join(' ')}</div>
+      <div class="hook">${t.hook}</div>
+      <div class="reason">${t.reason}</div>
+      ${t.strategy ? `<div style="margin-top:0.4rem;font-size:0.75rem;color:#5a5a9a">策略参考：${t.strategy}</div>` : ''}
+    </div>
+  `).join('');
+  
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('wheel-section').style.display = 'block';
+  
+  // Animate cards
+  gsap.from('.topic-card', {
+    opacity:0, y:15, duration:0.3, stagger:0.02, ease:'power2.out'
+  });
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
+function exportTopics() {
+  if (currentTopics.length === 0) {
+    alert('还没有生成选题，请先生成');
+    return;
+  }
+  
+  let text = `# 三环选题系统 - 导出报告\n`;
+  text += `行业：${currentIndustry}\n`;
+  text += `生成时间：${new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'})}\n`;
+  text += `共 ${currentTopics.length} 条\n\n`;
+  
+  currentTopics.forEach((t, i) => {
+    text += `---\n`;
+    text += `## ${i+1}. ${t.title}\n`;
+    text += `类型：${t.tag} | 钩子模板：${t.type}\n`;
+    text += `关键词：${t.keywords.join('、')}\n`;
+    text += `钩子：${t.hook}\n`;
+    text += `策略：${t.reason}\n`;
+    if (t.strategy) text += `参考策略卡：${t.strategy}\n`;
+    text += '\n';
+  });
+  
+  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `三环选题-${currentIndustry}-${Date.now()}.md`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ============================================================
+// MAIN
+// ============================================================
+function generateTopics() {
+  const input = document.getElementById('industry-input').value.trim();
+  
+  // Auto-detect industry
+  if (input.includes('婚礼') || input.includes('婚庆') || input.includes('结婚')) {
+    currentIndustry = 'wedding';
+  } else if (input.includes('门窗') || input.includes('窗户') || input.includes('阳光房')) {
+    currentIndustry = 'door_window';
+  } else if (input.includes('餐饮') || input.includes('饭店') || input.includes('餐厅') || input.includes('美食')) {
+    currentIndustry = 'catering';
+  } else if (input.includes('摄影') || input.includes('拍照') || input.includes('相机')) {
+    currentIndustry = 'photography';
+  } else {
+    currentIndustry = 'default';
+  }
+  
+  document.getElementById('wheel-title').textContent = `三环旋转匹配中 — ${input || '通用'}`;
+  document.getElementById('wheel-sub').textContent = '内圈：产品层 · 中圈：用户层 · 外圈：需求痛点层';
+  
+  renderWheel();
+  document.getElementById('wheel-section').style.display = 'block';
+  
+  // Scroll to wheel
+  document.getElementById('wheel-section').scrollIntoView({behavior:'smooth'});
+  
+  // Auto-generate initial 10
+  batchSpin(10);
+}
+
+// ============================================================
+// STRATEGY PANEL
+// ============================================================
+function showStrategies() {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('strategy-panel').style.display = 'block';
+  document.getElementById('hook-panel').style.display = 'none';
+  
+  const list = document.getElementById('strategy-list');
+  list.innerHTML = STRATEGY_CARDS.map(s => `
+    <div class="strategy-card">
+      <h3>${s.name}</h3>
+      <div class="desc">${s.desc}</div>
+      <ul class="methods">
+        ${s.methods.map(m => `<li>${m}</li>`).join('')}
+      </ul>
+      <div style="margin-top:0.5rem;font-size:0.75rem;color:#5a5a9a">触发条件：${s.trigger}</div>
+    </div>
+  `).join('');
+  
+  document.getElementById('strategy-panel').scrollIntoView({behavior:'smooth'});
+}
+
+function showHooks() {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('strategy-panel').style.display = 'none';
+  document.getElementById('hook-panel').style.display = 'block';
+  
+  const grid = document.getElementById('hook-grid');
+  grid.innerHTML = HOOK_TEMPLATES.map((h, i) => `
+    <div class="hook-card">
+      <div class="num">${i+1}</div>
+      <div class="name">${h.name}</div>
+      <div class="formula">${h.formula}</div>
+      <div class="example">${h.example}</div>
+    </div>
+  `).join('');
+  
+  document.getElementById('hook-panel').scrollIntoView({behavior:'smooth'});
+}
+
+function showResults() {
+  document.getElementById('strategy-panel').style.display = 'none';
+  document.getElementById('hook-panel').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderWheel();
+renderTopics();
+
+// GSAP hero animation
+gsap.from('.hero h1', {opacity:0, y:30, duration:1, ease:'power2.out'});
+gsap.from('.hero .sub', {opacity:0, y:20, duration:1, delay:0.2, ease:'power2.out'});
+gsap.from('.hero .input-area', {opacity:0, y:15, duration:0.8, delay:0.4, ease:'power2.out'});
+</script>
+</body>
+</html>
