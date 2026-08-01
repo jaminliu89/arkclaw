@@ -4,8 +4,6 @@
 
 直播话术 skill 已更新到完整体系：四大流派框架+开场5类型+收尾3方式+轻快重慢节奏+框架话术公式+接流量分级法+诊断→选型→出稿→验证→复盘闭环+56分钟逐字稿模板(分个位数/10-30人/急速流三档)。写作团规则从6条进化到23条，含黄金钩子六法、三段式结构、发布前自查清单。
 §
-选题自动更新规则：所有有关选题的方法论、模板、案例、数据，收到后自动更新到三环选题方法论体系（手册第十七章），不需要用户每次提醒。包括但不限于：选题技巧、开头钩子、文案结构、行业关键词库、策略卡等。
-
 内容自动化流水线已搭建：7步（S0画像→S1采集→S2分析→S3创作→S4审核→S5加工→S6发布），3个skill（content-scanner/content-publisher/media-pipeline），融合expert-writing-troupe的写作能力。流水线目录~/.hermes/pipeline/。需安装MediaCrawler（采集）和Social-Auto-Upload/MultiPost（发布）才能全自动化。
 §
 vault-rag skill rebuilt and registered. Script at ~/.hermes/scripts/vault_rag.py. Uses rg + Qwen3-8b for fast (8-10s) local RAG on Obsidian vault. Command: python3 ~/.hermes/scripts/vault_rag.py query "问题" [--deep]. Alias: vq (if configured). vault_search.py is the pure rg version for keyword-only lookup.
