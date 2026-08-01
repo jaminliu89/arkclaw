@@ -16,8 +16,8 @@ fi
 git commit -m \"auto backup $(date '+%Y-%m-%d %H:%M')\"
 
 # 推送到两个远程
-git push github main 2>&1
-git push gitee main 2>&1
+git push github master 2>&1
+git push gitee master 2>&1
 
 echo \"[$(date)] 备份完成\"
 " 2>&1 || echo "[$(date)] 另一个备份进程正在运行，跳过"
