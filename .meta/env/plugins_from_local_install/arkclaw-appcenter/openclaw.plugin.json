@@ -2,8 +2,11 @@
   "id": "arkclaw-appcenter",
   "name": "Arkclaw Appcenter",
   "description": "ArkClaw Plugin for AppCenter integration",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "contracts": {
+    "gatewayMethodDispatch": [
+      "authenticated-request"
+    ],
     "tools": [
       "a2a_send_file",
       "ac_get_resource",
@@ -753,5 +756,5 @@
       }
     }
   },
-  "hash_code": "cc2b3a6dff7ceb7c231b5b9bbb0096de58c2df11"
+  "hash_code": "f00b066b6e2b30d4d82d1f55f7911e3147dde7e0"
 }

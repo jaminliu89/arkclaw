@@ -1,5 +1,5 @@
 {"name":"apmplus-openclaw-plugin","source":"npm","spec":"@volcengine/apmplus-openclaw-plugin@0.1.40","version":"0.1.40"}
-{"name":"arkclaw-appcenter","source":"archive","spec":"arkclaw-appcenter","version":"1.1.2","sourcePath":"/root/.openclaw/extensions/arkclaw-appcenter"}
+{"name":"arkclaw-appcenter","source":"archive","spec":"arkclaw-appcenter","version":"1.1.4","sourcePath":"/root/.openclaw/extensions/arkclaw-appcenter"}
 {"name":"claw-sentry","source":"archive","spec":"claw-sentry","version":"1.6.0","sourcePath":"/root/.openclaw/extensions/claw-sentry"}
 {"name":"codex","source":"archive","spec":"codex","version":"2026.5.28","sourcePath":"/root/.openclaw/extensions/codex"}
 {"name":"dingtalk-connector","source":"archive","spec":"@duckduck-cocode/dingtalk-connector@0.8.7","version":"0.8.7","sourcePath":"/root/.openclaw/extensions/dingtalk-connector"}
