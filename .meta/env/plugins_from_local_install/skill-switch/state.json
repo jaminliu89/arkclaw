@@ -4,6 +4,30 @@
   "cachedSkills": {
     "skills": [
       {
+        "id": "skills-index",
+        "name": "📋 Hermes Skills 中文索引",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/skills-index/SKILL.md"
+      },
+      {
+        "id": "story-selling-methodology",
+        "name": "654俱乐部·故事销售法 (Story-Driven Sales)",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/story-selling-methodology/SKILL.md"
+      },
+      {
+        "id": "douyin-viral-topic-extractor",
+        "name": "抖音爆款选题提取器",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/douyin-viral-topic-extractor/SKILL.md"
+      },
+      {
+        "id": "topic-agent",
+        "name": "抖音选题生成器 — 关键词驱动模板",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/topic-agent/SKILL.md"
+      },
+      {
         "id": "feishu-lark-cli",
         "name": "飞书操作铁律（最高优先级）",
         "source": "workspace",
@@ -16,16 +40,34 @@
         "path": "/root/.agents/skills/workspace-netdrive/SKILL.md"
       },
       {
+        "id": "story-lens",
+        "name": "故事镜头 Story Lens",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/story-lens/SKILL.md"
+      },
+      {
         "id": "lark-workflow-meeting-summary",
         "name": "会议纪要汇总工作流",
         "source": "workspace",
         "path": "/root/.agents/skills/lark-workflow-meeting-summary/SKILL.md"
       },
       {
+        "id": "personality-miner",
+        "name": "人格反推系统 Personality Miner",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/personality-miner/SKILL.md"
+      },
+      {
         "id": "lark-workflow-standup-report",
         "name": "日程待办摘要工作流",
         "source": "workspace",
         "path": "/root/.agents/skills/lark-workflow-standup-report/SKILL.md"
+      },
+      {
+        "id": "live-stream-script-generator",
+        "name": "直播话术生成器 — 人和行业双变量提示词模板",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/live-stream-script-generator/SKILL.md"
       },
       {
         "id": "lark-apps",
@@ -77,9 +119,9 @@
       },
       {
         "id": "computer-use",
-        "name": "Computer Use (CUA) Guide",
+        "name": "Computer Use (universal, any-model, cross-platform)",
         "source": "workspace",
-        "path": "/root/.agents/skills/computer-use/SKILL.md"
+        "path": "/root/.openclaw/workspace/skills/computer-use/SKILL.md"
       },
       {
         "id": "lark-contact",
@@ -88,10 +130,22 @@
         "path": "/root/.agents/skills/lark-contact/SKILL.md"
       },
       {
+        "id": "custom-llm-providers",
+        "name": "Custom LLM Providers",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/custom-llm-providers/SKILL.md"
+      },
+      {
         "id": "lark-doc",
         "name": "docs (v2)",
         "source": "workspace",
         "path": "/root/.agents/skills/lark-doc/SKILL.md"
+      },
+      {
+        "id": "dogfood",
+        "name": "Dogfood: Systematic Web Application QA Testing",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/dogfood/SKILL.md"
       },
       {
         "id": "lark-drive",
@@ -266,8 +320,14 @@
         "name": "XUA-auto",
         "source": "workspace",
         "path": "/root/.agents/skills/XUA-auto/SKILL.md"
+      },
+      {
+        "id": "yuanbao",
+        "name": "Yuanbao Group Interaction",
+        "source": "workspace",
+        "path": "/root/.openclaw/workspace/skills/yuanbao/SKILL.md"
       }
     ],
-    "updatedAt": "2026-07-13T15:30:54.550Z"
+    "updatedAt": "2026-08-02T17:42:51.381Z"
   }
 }
